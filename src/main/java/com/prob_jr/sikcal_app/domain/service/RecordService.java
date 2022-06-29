@@ -1,5 +1,11 @@
 package com.prob_jr.sikcal_app.domain.service;
 
+import com.prob_jr.sikcal_app.domain.Food;
+import com.prob_jr.sikcal_app.domain.Member;
+import com.prob_jr.sikcal_app.domain.Record;
+import com.prob_jr.sikcal_app.domain.RecordFood;
+import com.prob_jr.sikcal_app.domain.repository.FoodRepository;
+import com.prob_jr.sikcal_app.domain.repository.MemberRepository;
 import com.prob_jr.sikcal_app.domain.repository.RecordRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,16 +17,33 @@ import org.springframework.transaction.annotation.Transactional;
 public class RecordService {
 
     private final RecordRepository recordRepository;
+    private final FoodRepository foodRepository;
+    private final MemberRepository memberRepository;
 
     /**
-     * 식단추가
+     * 식단생성
      */
+    public Long record(Long memberId, String foodName) {
+
+        Member member = memberRepository.findOne(memberId);
+        Food food = foodRepository.findOne(foodName);
+
+        //음식 추가
+        RecordFood recordFood = RecordFood.createRecordFood(food);
+
+        //식단 추가 --> 날짜까지 생각해서 create문 수정하기
+        Record record = Record.createRecord(member, recordFood);
 
 
+        //식단 저장
+        recordRepository.save(record);
 
+        return record.getId();
+    }
 
     /**
      * 식단 삭제
      */
+
 
 }

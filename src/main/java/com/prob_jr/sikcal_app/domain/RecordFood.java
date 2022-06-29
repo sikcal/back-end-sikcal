@@ -1,6 +1,7 @@
 package com.prob_jr.sikcal_app.domain;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -22,5 +23,21 @@ public class RecordFood {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "food_id")
     private Food food;
+
+    public void setFood(Food food) {
+        this.food = food;
+    }
+
+    public void setRecord(Record record) {
+        this.record = record;
+    }
+
+    //====생성 메서드====//
+    public static RecordFood createRecordFood(Food food) {
+        RecordFood recordFood = new RecordFood();
+        recordFood.setFood(food);
+
+        return recordFood;
+    }
 
 }

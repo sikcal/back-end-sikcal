@@ -32,6 +32,10 @@ public class Record {
         this.member = member;
     }
 
+    public void setRecordDate(LocalDateTime recordDate) {
+        this.recordDate = recordDate;
+    }
+
     //====연관관계 편의 메소드====//
     public void addRecordFood(RecordFood recordFood) {
         recordFoods.add(recordFood);
@@ -41,7 +45,9 @@ public class Record {
     //====생성 메서드====//
     public static Record createRecord(Member member, RecordFood... recordFoods) {
         Record record = new Record();
+        LocalDateTime currentTime = LocalDateTime.now();
         record.setMember(member);
+        record.setRecordDate(currentTime); //식단생성과 함께 datetime을 set
         for (RecordFood recordFood : recordFoods) {
             record.addRecordFood(recordFood);
         }

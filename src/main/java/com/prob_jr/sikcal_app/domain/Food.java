@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 public class Food {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "food_id")
     private Long id;
 

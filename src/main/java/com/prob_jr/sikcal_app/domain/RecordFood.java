@@ -1,7 +1,6 @@
 package com.prob_jr.sikcal_app.domain;
 
 import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -38,6 +37,11 @@ public class RecordFood {
         recordFood.setFood(food);
 
         return recordFood;
+    }
+
+    //====비즈니스 로직====//
+    public void cancel() {
+
     }
 
 }

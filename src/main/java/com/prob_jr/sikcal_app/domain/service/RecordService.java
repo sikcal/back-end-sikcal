@@ -5,11 +5,14 @@ import com.prob_jr.sikcal_app.domain.Member;
 import com.prob_jr.sikcal_app.domain.Record;
 import com.prob_jr.sikcal_app.domain.RecordFood;
 import com.prob_jr.sikcal_app.domain.repository.FoodRepository;
+import com.prob_jr.sikcal_app.domain.repository.FoodSearch;
 import com.prob_jr.sikcal_app.domain.repository.MemberRepository;
 import com.prob_jr.sikcal_app.domain.repository.RecordRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -25,15 +28,15 @@ public class RecordService {
      */
     public Long record(Long memberId, String foodName) {
 
+        //엔티티 조회
         Member member = memberRepository.findOne(memberId);
         Food food = foodRepository.findOne(foodName);
 
         //음식 추가
         RecordFood recordFood = RecordFood.createRecordFood(food);
 
-        //식단 추가 --> 날짜까지 생각해서 create문 수정하기
+        //식단 추가
         Record record = Record.createRecord(member, recordFood);
-
 
         //식단 저장
         recordRepository.save(record);
@@ -44,6 +47,22 @@ public class RecordService {
     /**
      * 식단 삭제
      */
+    public void cancelRecord(Long recordId) {
+        //엔티티 조회
+        Record record = recordRepository.findOne(recordId);
+        //식단 삭제
 
+
+
+    }
+
+
+    /**
+     * 음식 검색
+     */
+    public List<RecordFood> findFoods(FoodSearch foodSearch) {
+
+        return recordRepository.findAll(foodSearch);
+    }
 
 }

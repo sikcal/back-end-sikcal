@@ -31,4 +31,8 @@ public class RecordRepository {
                 .setMaxResults(100)
                 .getResultList();
     }
+
+    public void cancel(Record record) {
+        em.remove(record);
+    }
 }

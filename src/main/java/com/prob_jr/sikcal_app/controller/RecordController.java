@@ -2,40 +2,41 @@ package com.prob_jr.sikcal_app.controller;
 
 import com.prob_jr.sikcal_app.domain.RecordFood;
 import com.prob_jr.sikcal_app.domain.repository.FoodSearch;
+import com.prob_jr.sikcal_app.domain.service.RecordFoodService;
 import com.prob_jr.sikcal_app.domain.service.RecordService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 public class RecordController {
 
-    private final RecordService recordService;
+    private final RecordFoodService recordFoodService;
 
-    @PostMapping("/record")
-    public String record(@RequestParam("memberId") Long memberId,
-                         @RequestParam("foodName") String foodName) {
-        recordService.record(memberId, foodName);
+    @PostMapping("/api/record/{id}")
+    public ResponseEntity record(@PathVariable Long id) {
+        Long recordId = recordFoodService.record(id);
 
-        return "redirect:/search";
+        return new ResponseEntity<>(id, HttpStatus.OK);
     }
 
-    @GetMapping("/home/search")
-    public String foodSearch(@ModelAttribute("foodSearch")FoodSearch foodSearch, Model model) {
-        List<RecordFood> foods = recordService.findFoods(foodSearch);
+//
+//    @GetMapping("/home/search")
+//    public String foodSearch(@ModelAttribute("foodSearch")FoodSearch foodSearch, Model model) {
+//        List<RecordFood> foods = recordService.findFoods(foodSearch);
+//
+//        model.addAttribute("search", foods);
+//
+//        return "/search";
+//    }
 
-        model.addAttribute("search", foods);
-
-        return "/search";
-    }
-
-    @PostMapping("/home")
+    @PostMapping("/api/home")
     public String cancelOrder() {
-        
+
 
         return "redirect:/search";
     }

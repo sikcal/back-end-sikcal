@@ -17,8 +17,8 @@ public class FoodRepository {
         em.persist(food);
     }
 
-    public Food findOne(String name) {
-        return em.find(Food.class, name);
+    public Food findOne(Long id) {
+        return em.find(Food.class, id);
     }
 
     public List<Food> findAll() {

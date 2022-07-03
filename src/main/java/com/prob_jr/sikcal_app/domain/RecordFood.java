@@ -32,8 +32,9 @@ public class RecordFood {
     }
 
     //====생성 메서드====//
-    public static RecordFood createRecordFood(Food food) {
+    public static RecordFood createRecordFood(Record record, Food food) {
         RecordFood recordFood = new RecordFood();
+        recordFood.setRecord(record);
         recordFood.setFood(food);
 
         return recordFood;

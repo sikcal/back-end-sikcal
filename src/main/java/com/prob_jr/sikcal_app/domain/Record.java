@@ -43,22 +43,12 @@ public class Record {
     }
 
     //====생성 메서드====//
-    public static Record createRecord(Member member, RecordFood... recordFoods) {
+    public static Record createRecord(Member member) {
         Record record = new Record();
         record.setMember(member);
         record.setRecordDate(LocalDateTime.now()); //식단생성과 함께 생성 당시의 datetime을 set
-        for (RecordFood recordFood : recordFoods) {
-            record.addRecordFood(recordFood);
-        }
+
         return record;
-    }
-
-    //====비즈니스 로직====//
-    public void cancel() {
-        for (RecordFood recordFood : recordFoods) {
-            recordFood.cancel();
-        }
-
     }
 
 }

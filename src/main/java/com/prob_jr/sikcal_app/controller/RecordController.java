@@ -23,22 +23,4 @@ public class RecordController {
 
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
-
-//
-//    @GetMapping("/home/search")
-//    public String foodSearch(@ModelAttribute("foodSearch")FoodSearch foodSearch, Model model) {
-//        List<RecordFood> foods = recordService.findFoods(foodSearch);
-//
-//        model.addAttribute("search", foods);
-//
-//        return "/search";
-//    }
-
-    @PostMapping("/api/home")
-    public String cancelOrder() {
-
-
-        return "redirect:/search";
-    }
-
 }

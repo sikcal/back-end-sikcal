@@ -13,10 +13,6 @@ public class FoodRepository {
 
     private EntityManager em;
 
-    public void save(Food food) {
-        em.persist(food);
-    }
-
     public Food findOne(Long id) {
         return em.find(Food.class, id);
     }

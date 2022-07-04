@@ -28,6 +28,19 @@ public class RecordFoodRepository {
                 .getResultList();
     }
 
+    public List<RecordFood> findAll(FoodSearch foodSearch) {
+
+        return em.createQuery("select rf from RecordFood rf join rf.food f" +
+                        " where f.foodName = :name", RecordFood.class)
+                .setParameter("name", foodSearch.getFoodName())
+                .setMaxResults(100)
+                .getResultList();
+    }
+
+//    public List<RecordFood> findByFoodNameContaining(FoodSearch foodSearch) {
+//
+//    }
+
     public void delete(RecordFood recordFood) {
         em.remove(recordFood);
     }

@@ -23,16 +23,7 @@ public class RecordRepository {
         return em.find(Record.class, id);
     }
 
-    public List<RecordFood> findAll(FoodSearch foodSearch) {
-
-        return em.createQuery("select rf from RecordFood rf join rf.food f" +
-                        " where f.foodName = :name", RecordFood.class)
-                .setParameter("name", foodSearch.getFoodName())
-                .setMaxResults(100)
-                .getResultList();
-    }
-
-    public void cancel(Record record) {
+    public void delete(Record record) {
         em.remove(record);
     }
 }

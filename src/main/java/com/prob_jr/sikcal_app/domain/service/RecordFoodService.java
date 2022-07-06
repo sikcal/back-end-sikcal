@@ -65,7 +65,7 @@ public class RecordFoodService {
         // record 조회
         Record record = recordRepository.findOne(recordId);
         // food 조회
-        Food food = foodRepository.findOne(foodId);
+        Food food = foodRepository.findById(foodId).orElseThrow(null);
         // record food 생성
         RecordFood recordFood = RecordFood.createRecordFood(record, food);
 
@@ -91,12 +91,9 @@ public class RecordFoodService {
     /**
      * 음식 검색
      */
-//    public List<RecordFood> search(FoodSearch foodSearch) {
-//
-//
-//    }
+    public List<Food> search(String foodName) {
 
-
-
+        return foodRepository.findAllByFoodNameContains(foodName);
+    }
 
 }

@@ -1,12 +1,11 @@
 package com.prob_jr.sikcal_app.domain.controller;
 
 import com.prob_jr.sikcal_app.domain.Food;
-import com.prob_jr.sikcal_app.domain.RecordFood;
 import com.prob_jr.sikcal_app.domain.controller.dto.FoodInfoResponse;
 import com.prob_jr.sikcal_app.domain.controller.dto.RecordFoodSearchRequest;
 import com.prob_jr.sikcal_app.domain.controller.dto.SaveFoodRequest;
 import com.prob_jr.sikcal_app.domain.service.RecordFoodService;
-import lombok.Getter;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,13 +35,13 @@ public class FoodController {
         return ResponseEntity.ok().build();
     }
 
-//    @GetMapping("/record/food")
-//    public ResponseEntity<List<FoodInfoResponse>> search(@RequestBody RecordFoodSearchRequest searchRequest) {
-//
-//        List<Food> search = recordFoodService.search(searchRequest.toServiceDto());
-//
-//        return ResponseEntity.ok(search.stream().map(FoodInfoResponse::from).collect(Collectors.toList()));
-//    }
+    @GetMapping("/record/food")
+    public ResponseEntity<List<FoodInfoResponse>> search(@RequestBody RecordFoodSearchRequest searchRequest) {
+
+        List<Food> search = recordFoodService.search(searchRequest.toServiceDto());
+
+        return ResponseEntity.ok(search.stream().map(FoodInfoResponse::from).collect(Collectors.toList()));
+    }
 
 
 

@@ -5,6 +5,9 @@ import com.prob_jr.sikcal_app.domain.Member;
 import com.prob_jr.sikcal_app.domain.Record;
 import com.prob_jr.sikcal_app.domain.RecordFood;
 import com.prob_jr.sikcal_app.domain.repository.*;
+import com.prob_jr.sikcal_app.domain.service.dto.FoodRecordDto;
+import com.prob_jr.sikcal_app.domain.service.dto.FoodSaveDto;
+import com.prob_jr.sikcal_app.domain.service.dto.RecordFoodSearchCond;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +28,9 @@ public class RecordFoodService {
      * 식단 생성
      */
     @Transactional
-    public Long record(Long memberId) {
+    public Long record(FoodRecordDto foodRecordDto) {
+        Long memberId = foodRecordDto.getMemberId();
+
         //엔티티 조회
         Member member = memberRepository.findOne(memberId);
 
@@ -61,7 +66,10 @@ public class RecordFoodService {
      * 음식 추가
      */
     @Transactional
-    public Long addFood(Long recordId, Long foodId) {
+    public Long addFood(FoodSaveDto foodSaveDto) {
+        Long recordId = foodSaveDto.getRecordId();
+        Long foodId = foodSaveDto.getFoodId();
+
         // record 조회
         Record record = recordRepository.findOne(recordId);
         // food 조회
@@ -91,9 +99,9 @@ public class RecordFoodService {
     /**
      * 음식 검색
      */
-    public List<Food> search(String foodName) {
+    public List<Food> search(RecordFoodSearchCond recordFoodSearchCond) {
 
-        return foodRepository.findAllByFoodNameContains(foodName);
+        return foodRepository.findAllByFoodNameContains(recordFoodSearchCond.getFoodName());
     }
 
 }

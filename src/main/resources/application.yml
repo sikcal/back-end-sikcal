@@ -1,13 +1,13 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://s465z7sj4pwhp7fn.cbetxkdyhwsb.us-east-1.rds.amazonaws.com/reminder?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul
-    username: pw3rhemgvfmruwgi
-    password: hm8fa297t7bh8q3o
+    url: jdbc:mysql://sikcal.cjnhnl3rox8c.ap-northeast-2.rds.amazonaws.com:3306/sikcal
+    username: admin
+    password: sikcal1234
 
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     properties:
       hibernate:
         show_sql: true
@@ -17,6 +17,3 @@ logging:
   level:
     org.hibernate.SQL: debug
 #    org.hibernate.type: trace
-
-server:
-  port: ${port:8080}

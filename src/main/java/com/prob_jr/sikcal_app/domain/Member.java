@@ -13,7 +13,7 @@ public class Member {
 
     @Id
     @Column(name = "member_id")
-    private Long id;
+    private String id;
 
     @Column(name = "member_pw")
     private String password;

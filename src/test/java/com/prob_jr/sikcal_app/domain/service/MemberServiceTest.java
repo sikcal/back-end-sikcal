@@ -33,7 +33,7 @@ public class MemberServiceTest {
     public void 회원가입() throws Exception {
         //given
         Member member = new Member();
-        member.setId(6L);
+        member.setId("sikcal1");
         member.setName("박의수");
         LocalDate date = LocalDate.of(2000, 1, 1);
         member.setHeight(180);

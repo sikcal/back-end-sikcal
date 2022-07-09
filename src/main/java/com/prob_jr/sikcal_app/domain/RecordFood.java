@@ -11,7 +11,7 @@ import static javax.persistence.FetchType.*;
 public class RecordFood {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "record_food_id")
     private Long id;
 

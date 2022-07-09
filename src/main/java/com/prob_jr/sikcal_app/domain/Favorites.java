@@ -11,7 +11,7 @@ import static javax.persistence.FetchType.*;
 public class Favorites {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "favorites_id")
     private Long id;
 

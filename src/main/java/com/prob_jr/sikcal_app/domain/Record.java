@@ -15,7 +15,7 @@ import static javax.persistence.FetchType.*;
 public class Record {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "record_id")
     private Long id;
 

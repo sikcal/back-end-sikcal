@@ -12,7 +12,7 @@ import static javax.persistence.FetchType.*;
 public class Calendar {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "calendar_id")
     private Long id;
 

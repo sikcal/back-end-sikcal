@@ -1,7 +1,7 @@
-package com.prob_jr.sikcal_app.domain.service;
+package com.prob_jr.sikcal_app.service;
 
 import com.prob_jr.sikcal_app.domain.Member;
-import com.prob_jr.sikcal_app.domain.repository.MemberRepository;
+import com.prob_jr.sikcal_app.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

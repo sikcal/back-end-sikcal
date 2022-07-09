@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Setter //회원이 정상적으로 테이블에 insert되는지를 확인하기 위해 열어둔 Setter || 추후 삭제 예정
 public class Member {
 
-    @Id
+    @Id @GeneratedValue
     @Column(name = "member_id")
     private Long id;
 

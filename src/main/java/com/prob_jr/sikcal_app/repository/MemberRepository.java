@@ -1,11 +1,11 @@
-package com.prob_jr.sikcal_app.domain.repository;
+package com.prob_jr.sikcal_app.repository;
 
-import com.prob_jr.sikcal_app.domain.Member;
+
+import com.prob_jr.sikcal_app.domain.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository

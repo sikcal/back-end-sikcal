@@ -36,7 +36,7 @@ public class FoodController {
     }
 
     @GetMapping("/record/food")
-    public ResponseEntity<List<FoodInfoResponse>> search(@RequestBody RecordFoodSearchRequest searchRequest) {
+    public ResponseEntity<List<FoodInfoResponse>> search(@ModelAttribute RecordFoodSearchRequest searchRequest) {
 
         List<Food> search = recordFoodService.search(searchRequest.toServiceDto());
 

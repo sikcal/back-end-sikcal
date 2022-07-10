@@ -6,5 +6,5 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class FoodRecordDto {
-    private Long memberId;
+    private String memberId;
 }

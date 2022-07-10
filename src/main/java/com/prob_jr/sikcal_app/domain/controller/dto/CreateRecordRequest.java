@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class CreateRecordRequest {
 
-    private Long memberId;
+    private String memberId;
 
     public FoodRecordDto toServiceDto() {
         return new FoodRecordDto(memberId);

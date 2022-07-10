@@ -1,13 +1,10 @@
 package com.prob_jr.sikcal_app.domain.repository;
 
-import com.prob_jr.sikcal_app.domain.Food;
-import com.prob_jr.sikcal_app.domain.Record;
-import com.prob_jr.sikcal_app.domain.RecordFood;
+import com.prob_jr.sikcal_app.domain.Entity.Record;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import java.util.List;
 
 @Repository
 @RequiredArgsConstructor

@@ -4,14 +4,28 @@ spring:
     url: jdbc:mysql://localhost:3306/sickal?serverTimezone=UTC&characterEncoding=UTF-8
     username: root
     password: 1234
+<<<<<<< Updated upstream
   jpa:
     hibernate:
       ddl-auto: none
+=======
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+>>>>>>> Stashed changes
     properties:
       hibernate:
 #        show_sql: true
         format_sql: true
-
+  mvc: ##swagger연동을 위한 설정
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  redis:
+    port: 6379
+    host: localhost
+jwt:
+  secret: sikcalsickalsikalsikcalsickalsikal
 logging:
   level:
     org.hibernate.SQL: debug

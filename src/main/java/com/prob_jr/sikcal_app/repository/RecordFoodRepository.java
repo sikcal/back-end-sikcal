@@ -1,7 +1,11 @@
 package com.prob_jr.sikcal_app.domain.repository;
 
+<<<<<<< Updated upstream:src/main/java/com/prob_jr/sikcal_app/repository/RecordFoodRepository.java
 import com.prob_jr.sikcal_app.domain.Food;
 import com.prob_jr.sikcal_app.domain.RecordFood;
+=======
+import com.prob_jr.sikcal_app.domain.Entity.RecordFood;
+>>>>>>> Stashed changes:src/main/java/com/prob_jr/sikcal_app/domain/repository/RecordFoodRepository.java
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

@@ -1,5 +1,6 @@
 package com.prob_jr.sikcal_app.domain.service;
 
+<<<<<<< Updated upstream:src/main/java/com/prob_jr/sikcal_app/service/RecordFoodService.java
 import com.prob_jr.sikcal_app.domain.Food;
 import com.prob_jr.sikcal_app.domain.Member;
 import com.prob_jr.sikcal_app.domain.Record;
@@ -8,6 +9,16 @@ import com.prob_jr.sikcal_app.domain.repository.FoodRepository;
 import com.prob_jr.sikcal_app.domain.repository.MemberRepository;
 import com.prob_jr.sikcal_app.domain.repository.RecordFoodRepository;
 import com.prob_jr.sikcal_app.domain.repository.RecordRepository;
+=======
+import com.prob_jr.sikcal_app.domain.Entity.Food;
+import com.prob_jr.sikcal_app.domain.Entity.Member;
+import com.prob_jr.sikcal_app.domain.Entity.Record;
+import com.prob_jr.sikcal_app.domain.Entity.RecordFood;
+import com.prob_jr.sikcal_app.domain.repository.*;
+import com.prob_jr.sikcal_app.domain.service.dto.FoodRecordDto;
+import com.prob_jr.sikcal_app.domain.service.dto.FoodSaveDto;
+import com.prob_jr.sikcal_app.domain.service.dto.RecordFoodSearchCond;
+>>>>>>> Stashed changes:src/main/java/com/prob_jr/sikcal_app/domain/service/RecordFoodService.java
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,25 +31,26 @@ import java.util.List;
 public class RecordFoodService {
 
     private final RecordRepository recordRepository;
-    private final MemberRepository memberRepository;
+    private final JpaMemberRepository memberRepository;
     private final FoodRepository foodRepository;
     private final RecordFoodRepository recordFoodRepository;
 
     /**
      * 식단 생성
      */
+    /*
     @Transactional
     public Long record(Long memberId) {
         //엔티티 조회
-        Member member = memberRepository.findOne(memberId);
+       // Member member = memberRepository.findById(memberId);
 
         //식단 생성
-        Record record = Record.createRecord(member);
+     //   Record record = Record.createRecord(member);
 
         recordRepository.save(record);
 
         return record.getId();
-    }
+    }*/
 
 
     /**

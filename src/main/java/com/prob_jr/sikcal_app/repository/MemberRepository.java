@@ -1,7 +1,12 @@
 package com.prob_jr.sikcal_app.repository;
 
+<<<<<<< Updated upstream:src/main/java/com/prob_jr/sikcal_app/repository/MemberRepository.java
 
 import com.prob_jr.sikcal_app.domain.*;
+=======
+import com.prob_jr.sikcal_app.domain.Entity.Member;
+import com.prob_jr.sikcal_app.domain.service.dto.MemberDto;
+>>>>>>> Stashed changes:src/main/java/com/prob_jr/sikcal_app/domain/repository/MemberRepository.java
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -14,13 +19,6 @@ public class MemberRepository {
 
     private final EntityManager em;
 
-    public void save(Member member) {
-        em.persist(member);
-    }
-
-    public Member findOne(Long id) {
-        return em.find(Member.class, id);
-    }
 
     public List<Member> findAll() {
         return em.createQuery("select m from Member m", Member.class)

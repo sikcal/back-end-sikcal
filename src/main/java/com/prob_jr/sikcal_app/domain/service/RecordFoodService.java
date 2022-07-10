@@ -29,10 +29,10 @@ public class RecordFoodService {
      */
     @Transactional
     public Long record(FoodRecordDto foodRecordDto) {
-        Long memberId = foodRecordDto.getMemberId();
+        String memberId = foodRecordDto.getMemberId();
 
         //엔티티 조회
-        Member member = memberRepository.findOne(memberId);
+        Member member = memberRepository.findById(memberId).orElseThrow(null);
 
         //식단 생성
         Record record = Record.createRecord(member);

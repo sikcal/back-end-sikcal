@@ -1,4 +1,4 @@
-package com.prob_jr.sikcal_app.domain.Entity;
+package com.prob_jr.sikcal_app.domain;
 
 import lombok.Getter;
 

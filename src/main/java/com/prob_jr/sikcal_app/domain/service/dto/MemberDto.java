@@ -1,6 +1,6 @@
 package com.prob_jr.sikcal_app.domain.service.dto;
 
-import com.prob_jr.sikcal_app.domain.Entity.*;
+import com.prob_jr.sikcal_app.domain.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;

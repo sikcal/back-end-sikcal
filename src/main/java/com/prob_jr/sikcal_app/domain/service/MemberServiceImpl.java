@@ -1,10 +1,10 @@
 package com.prob_jr.sikcal_app.domain.service;
 
 
-import com.prob_jr.sikcal_app.domain.Entity.Member;
-import com.prob_jr.sikcal_app.domain.Entity.MemberActivity;
-import com.prob_jr.sikcal_app.domain.Entity.MemberSex;
-import com.prob_jr.sikcal_app.domain.Entity.Role;
+import com.prob_jr.sikcal_app.domain.Member;
+import com.prob_jr.sikcal_app.domain.MemberActivity;
+import com.prob_jr.sikcal_app.domain.MemberSex;
+import com.prob_jr.sikcal_app.domain.Role;
 import com.prob_jr.sikcal_app.domain.controller.MemberController;
 import com.prob_jr.sikcal_app.domain.repository.JpaMemberRepository;
 import com.prob_jr.sikcal_app.domain.repository.RoleRepository;
@@ -13,7 +13,6 @@ import com.prob_jr.sikcal_app.domain.service.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -78,7 +77,9 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
         LOGGER.info("회원:{} 에게 권한:{} 부여 완료.",userid,roleName);
         Member member =memberRepository.findById(userid).get();
         Role role = roleRepository.findByName(roleName);
+        LOGGER.info("rolename{} 하고 role{} 잘됬는지 확인",roleName, role);
         member.getRoles().add(role);
+        LOGGER.info("role 추가되었는지 확인{}",member);
     }
 
     @Override
@@ -135,10 +136,11 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
     public MemberDto login(String id, String rawPw) {
         //인코딩해서 값 비교
         String encodedPassword = passwordEncoder.encode(rawPw);
+        LOGGER.info("raw에서 encode된 비번 정보!!!{}",encodedPassword);
         Member member =memberRepository.findById(id)
                 .filter(m -> m.getPassword().equals(encodedPassword))
                 .orElse(null);
-        member.setPassword("security");
+        LOGGER.info("login 정보!!!{}",member);
         MemberDto memberDto = member.toDto();
         return memberDto;
     }

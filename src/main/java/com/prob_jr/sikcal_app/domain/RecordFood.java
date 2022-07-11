@@ -1,4 +1,4 @@
-package com.prob_jr.sikcal_app.domain.Entity;
+package com.prob_jr.sikcal_app.domain;
 
 import lombok.Getter;
 
@@ -8,19 +8,19 @@ import static javax.persistence.FetchType.*;
 
 @Entity
 @Getter
-public class Post {
+public class RecordFood {
 
     @Id
     @GeneratedValue
-    @Column(name = "post_id")
+    @Column(name = "record_food_id")
     private Long id;
 
-    private String menu;
-    private Long numOfLike;
-    private String recipe;
-
-    @OneToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "record_id")
     private Record record;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "food_id")
+    private Food food;
 
 }

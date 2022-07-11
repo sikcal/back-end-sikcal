@@ -1,4 +1,5 @@
-package com.prob_jr.sikcal_app.repository;
+package com.prob_jr.sikcal_app.domain.repository;
+
 
 import com.prob_jr.sikcal_app.domain.Member;
 

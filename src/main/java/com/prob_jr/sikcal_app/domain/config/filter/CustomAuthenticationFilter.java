@@ -3,7 +3,6 @@ package com.prob_jr.sikcal_app.domain.config.filter;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.prob_jr.sikcal_app.domain.Entity.Member;
 import com.prob_jr.sikcal_app.domain.controller.MemberController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package com.prob_jr.sikcal_app.domain.Entity;
+package com.prob_jr.sikcal_app.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +14,7 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     //역할이름 admin, user
     private String name;
 }

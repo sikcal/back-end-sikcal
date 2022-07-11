@@ -1,26 +1,38 @@
 package com.prob_jr.sikcal_app.domain.controller;
 
 
-import com.prob_jr.sikcal_app.domain.Entity.Role;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.prob_jr.sikcal_app.domain.Role;
 import com.prob_jr.sikcal_app.domain.exception.Constants;
 import com.prob_jr.sikcal_app.domain.exception.SickalException;
-import com.prob_jr.sikcal_app.domain.service.MemberService;
-import com.prob_jr.sikcal_app.domain.service.dto.LoginDto;
 import com.prob_jr.sikcal_app.domain.service.dto.MemberDto;
+import com.prob_jr.sikcal_app.domain.service.MemberService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.net.URI;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static java.util.Arrays.stream;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.HttpStatus.FORBIDDEN;
+import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 //로그인 세션 유지하기
 //Model객체에 memberDto라는 이름으로 저장된 데이터를 자동으로 세션에 저장
@@ -37,24 +49,27 @@ public class MemberController {
     private final Logger LOGGER = LoggerFactory.getLogger(MemberController.class);
 
 
+/*            login mapping -> springsecurity가 httpintersect ... 아무튼 인터셉 해감 ! 구현할 필요 x
 
-    @PostMapping("/user/login")
+    @PostMapping("/login")
     public ResponseEntity<MemberDto> login(@Valid @ModelAttribute("memberDto") LoginDto loginDto, BindingResult bindingResult,Model model) throws SickalException{
         if(bindingResult.hasErrors()){ // binding result valid의 형식에 맞지않으면 그에 맞ㄴ느 오류 생성됌
             //밑에 binding.reject를 사용해서 글로벌 오류 objectError생성
             throw new SickalException(Constants.ExceptionClass.Login,HttpStatus.BAD_REQUEST, "문제발생11");
         }
-        MemberDto findMember = memberService.login(loginDto.getId(),loginDto.getPw());
-        LOGGER.info("login정보: {}",findMember);
-        if(findMember==null){
-            //bindingResult.reject("loginFail","아이디 또는 비밀번호가 맞지 않습니다.");
+        try {
+            MemberDto findMember = memberService.login(loginDto.getId(),loginDto.getPw());
+            LOGGER.info("login정보: {}",findMember);
+
+        }
+        catch (Exception e){
             throw new SickalException(Constants.ExceptionClass.Login,HttpStatus.BAD_REQUEST, "아이디 또는 비밀번호가 맞지 않습니다.");
         }
         //세션에 저장
         //return ResponseEntity.ok().body(findMember);
         return ResponseEntity.ok().build();
         //throw new SickalException(Constants.ExceptionClass.Login,HttpStatus.OK,"로그인 성공");
-    }
+    }*/
 
     //같은 url이더라도 데이터 조회는 get, 등록은 Post
     //객체로 받기
@@ -63,7 +78,7 @@ public class MemberController {
     //객체형식으로 잘못된값을 그대로 넘길것인가?
     //아님 에러 메시지만 넘길것인가
     //bindingresult를 써서 valid에 실패한 부분((MemberDto형식에 맞지않은)의 메세지를 보냄
-    @PostMapping("/user/save")
+    @PostMapping("/join")
     public  ResponseEntity<MemberDto>  joinProc(@Valid @RequestBody MemberDto memberDto, BindingResult bindingResult) throws SickalException {
         if (bindingResult.hasErrors()) {
             LOGGER.warn("형식에 맞지않은 입력입니다.:{}",bindingResult);
@@ -114,6 +129,52 @@ public class MemberController {
     public ResponseEntity<?>addRoleToMember(@RequestBody RoleToMemberForm form){
         memberService.addToRoleToUser(form.getMemberId(),form.getRoleName());
         return ResponseEntity.ok().build(); //코드 200 반환
+    }
+
+    /**
+     *
+     * @throws SickalException
+     */
+    // role을 member에게 부여
+    @GetMapping("/token/refresh")
+    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String authorizationHeader = request.getHeader(AUTHORIZATION); //header에 Authorization이라고 전달
+        if(authorizationHeader !=null && authorizationHeader.startsWith("Bearer ")){ //인증헤더임을 확인 시작은 Bearer 국룰
+            try {
+                String refresh_token = authorizationHeader.substring("Bearer ".length()); //bearer부분 짜르고 token검증
+                Algorithm algorithm = Algorithm.HMAC256("secret".getBytes()); //전에 알고리즘으로 서명했기에 verify하기 위해서 알고리즘으로 확인 필요
+                JWTVerifier verifier = JWT.require(algorithm).build(); //검증기 제작
+                DecodedJWT decodedJWT = verifier.verify(refresh_token); //토큰 검증하기
+                String userid = decodedJWT.getSubject();
+                MemberDto member =memberService.getMember(userid); //token으로 이름받아와서 해당이름인 멤버 찾기
+                String access_token = JWT.create()
+                        .withSubject(member.getId()) //회원 고유한걸로 해야함 key
+                        .withExpiresAt(new Date((System.currentTimeMillis() +10*60*1000))) //현재시간에서 일단 10분동안으로
+                        .withIssuer(request.getRequestURI().toString())
+                        .withClaim("roles", member.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
+                        .sign(algorithm);
+                Map<String, String> tokens= new HashMap<>();
+                tokens.put("access_token",access_token);
+                tokens.put("refresh_token",refresh_token);
+                response.setContentType(APPLICATION_JSON_VALUE);
+                new ObjectMapper().writeValue(response.getOutputStream(), tokens);
+
+            }catch (Exception exception){ //토큰이 valid 만료되었거나 무슨일이 생길때
+                LOGGER.error("토큰 varify 과정중 error발생:{} ",exception.getMessage() );
+                response.setHeader("token error",exception.getMessage());
+                // response.sendError(FORBIDDEN.value()); //403 forbidden 코드
+                response.setStatus(FORBIDDEN.value());
+                //에러시 json형태로 보내기
+                Map<String, String> error= new HashMap<>();
+                error.put("error_message",exception.getMessage());
+                response.setContentType(APPLICATION_JSON_VALUE);
+                new ObjectMapper().writeValue(response.getOutputStream(), error);
+            }
+        }
+        else{
+
+
+            }
     }
 
     // custom exception만든거 test해보깅

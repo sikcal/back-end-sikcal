@@ -4,16 +4,11 @@ spring:
     url: jdbc:mysql://localhost:3306/sickal?serverTimezone=UTC&characterEncoding=UTF-8
     username: root
     password: 1234
-<<<<<<< Updated upstream
-  jpa:
-    hibernate:
-      ddl-auto: none
-=======
+
 
   jpa:
     hibernate:
       ddl-auto: create
->>>>>>> Stashed changes
     properties:
       hibernate:
 #        show_sql: true

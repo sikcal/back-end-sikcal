@@ -38,7 +38,7 @@ public class SwaggerConfiguration implements WebMvcConfigurer {
         return new Docket(DocumentationType.SWAGGER_2)
             .apiInfo(apiInfo())
             .select()
-            .apis(RequestHandlerSelectors.basePackage("com.AppGaeBom.sickal"))
+            .apis(RequestHandlerSelectors.basePackage("com.prob_jr.sikcal_app"))
             .paths(PathSelectors.any())
             .build();
     }

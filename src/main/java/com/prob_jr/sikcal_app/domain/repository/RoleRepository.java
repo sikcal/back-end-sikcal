@@ -1,7 +1,7 @@
 package com.prob_jr.sikcal_app.domain.repository;
 
 
-import com.prob_jr.sikcal_app.domain.Entity.Role;
+import com.prob_jr.sikcal_app.domain.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 

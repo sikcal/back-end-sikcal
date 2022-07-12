@@ -11,6 +11,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,6 +19,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
@@ -31,6 +34,10 @@ public class SpringSecurity extends
     private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Override
+    public void configure(WebSecurity web){
+        web.ignoring().antMatchers("/api/token/refresh","/api/join");
+    }
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception{
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
@@ -49,10 +56,10 @@ public class SpringSecurity extends
         http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(STATELESS);
         //토큰없이도 모든자에게 permit되는 사이트 주소록들  swagger 밑 login , 회원가입 부분
-        http.authorizeRequests().antMatchers("/api/login/**","api/token/refresh/**","/api/join/**","/swagger-ui.html","/swagger/**",
+        http.authorizeRequests().antMatchers("/api/login/**","/api/token/refresh/**","/api/join/**","/swagger-ui.html","/swagger/**",
                 "/swagger-resources/**","/webjars/**","/v2/api-docs").permitAll();
-        http.authorizeRequests().antMatchers("/api/user/**").hasAnyAuthority("ROLE_USER"); //해당 주소 뒤로는 권한이 있는사람만 접근가능
-        http.authorizeRequests().antMatchers("/api/user/**").hasAnyAuthority("ROLE_ADMIN");
+        http.authorizeRequests().antMatchers(GET,"/api/user/**").hasAnyAuthority("ROLE_USER"); //해당 주소 뒤로는 권한이 있는사람만 접근가능
+        http.authorizeRequests().antMatchers(POST,"/api/user/**").hasAnyAuthority("ROLE_USER");
         http.authorizeRequests().anyRequest().authenticated(); //인증을 쓰겠다 permitall이 아닌
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);

@@ -3,7 +3,7 @@ package com.prob_jr.sikcal_app.domain.exception;
 public class Constants {
     public enum ExceptionClass {
 
-        MEMBER("Member"), Login("login");//에러클래스 custom타입으로 열거
+        MEMBER("Member"), Login("login"),Token("token");//에러클래스 custom타입으로 열거
 
         private String exceptionClass;
 

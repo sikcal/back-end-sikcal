@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.prob_jr.sikcal_app.domain.Role;
 import com.prob_jr.sikcal_app.domain.exception.Constants;
 import com.prob_jr.sikcal_app.domain.exception.SickalException;
+import com.prob_jr.sikcal_app.domain.service.dto.InfoDto;
 import com.prob_jr.sikcal_app.domain.service.dto.MemberDto;
 import com.prob_jr.sikcal_app.domain.service.MemberService;
 import lombok.Data;
@@ -48,28 +49,18 @@ public class MemberController {
     private final MemberService memberService;
     private final Logger LOGGER = LoggerFactory.getLogger(MemberController.class);
 
-
-/*            login mapping -> springsecurity가 httpintersect ... 아무튼 인터셉 해감 ! 구현할 필요 x
-
-    @PostMapping("/login")
-    public ResponseEntity<MemberDto> login(@Valid @ModelAttribute("memberDto") LoginDto loginDto, BindingResult bindingResult,Model model) throws SickalException{
-        if(bindingResult.hasErrors()){ // binding result valid의 형식에 맞지않으면 그에 맞ㄴ느 오류 생성됌
-            //밑에 binding.reject를 사용해서 글로벌 오류 objectError생성
-            throw new SickalException(Constants.ExceptionClass.Login,HttpStatus.BAD_REQUEST, "문제발생11");
-        }
-        try {
-            MemberDto findMember = memberService.login(loginDto.getId(),loginDto.getPw());
-            LOGGER.info("login정보: {}",findMember);
-
-        }
-        catch (Exception e){
-            throw new SickalException(Constants.ExceptionClass.Login,HttpStatus.BAD_REQUEST, "아이디 또는 비밀번호가 맞지 않습니다.");
-        }
-        //세션에 저장
-        //return ResponseEntity.ok().body(findMember);
-        return ResponseEntity.ok().build();
-        //throw new SickalException(Constants.ExceptionClass.Login,HttpStatus.OK,"로그인 성공");
-    }*/
+    @GetMapping ("/user/info")
+    public ResponseEntity<InfoDto> getMainInfo(HttpServletRequest request ){
+        String authorizationHeader = request.getHeader(AUTHORIZATION); //REFRESHTOKEN잉 있다면
+        String refresh_token = authorizationHeader.substring("Bearer ".length()); //bearer부분 짜르고 token검증
+        Algorithm algorithm = Algorithm.HMAC256("secret".getBytes()); //전에 알고리즘으로 서명했기에 verify하기 위해서 알고리즘으로 확인 필요
+        JWTVerifier verifier = JWT.require(algorithm).build(); //검증기 제작
+        DecodedJWT decodedJWT = verifier.verify(refresh_token); //토큰 검증하기
+        String userid = decodedJWT.getSubject(); //TOKEN에 SUBJECT에 MEMBERID저장해놨었음 !! JWT.IO확인!
+        LOGGER.info("입력된 id {}",userid);
+        InfoDto infoDto = memberService.searchInfoById(userid);
+        return ResponseEntity.ok().body(infoDto);
+    }
 
     //같은 url이더라도 데이터 조회는 get, 등록은 Post
     //객체로 받기
@@ -98,7 +89,8 @@ public class MemberController {
         try {
            MemberDto memberDto1= memberService.join(memberDto);
            URI uri =URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toUriString());//head에 redirect할 uri주소를 프론트에게 보냄
-             return ResponseEntity.created(uri).body(memberDto1); //code 201
+            memberService.addToRoleToUser(memberDto1.getId(),"ROLE_USER");  //가입된사람들 기본적으로 일반권한 줌
+            return ResponseEntity.created(uri).body(memberDto1); //code 201 무언가 만들어졌음
         }
         catch (Exception e){
             throw new SickalException(Constants.ExceptionClass.MEMBER,HttpStatus.BAD_REQUEST, "뭔가 잘못된게 있음");
@@ -135,17 +127,20 @@ public class MemberController {
      *
      * @throws SickalException
      */
-    // role을 member에게 부여
+    // refreshToken으로 accesstoken 재발급
+    // Header로 받기
     @GetMapping("/token/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String authorizationHeader = request.getHeader(AUTHORIZATION); //header에 Authorization이라고 전달
-        if(authorizationHeader !=null && authorizationHeader.startsWith("Bearer ")){ //인증헤더임을 확인 시작은 Bearer 국룰
+        String authorizationHeader = request.getHeader(AUTHORIZATION); //REFRESHTOKEN잉 있다면
+        LOGGER.info("이 함수 실행은 ??{}",authorizationHeader);
+        if(authorizationHeader !=null && authorizationHeader.startsWith("Bearer ")){
+            // 인 증헤더임을 확인 시작은 Bearer 국룰 -> 두 조건에 맞으면 REFRESH TOKEN으로 ACCESSTOKEN재발급
             try {
                 String refresh_token = authorizationHeader.substring("Bearer ".length()); //bearer부분 짜르고 token검증
                 Algorithm algorithm = Algorithm.HMAC256("secret".getBytes()); //전에 알고리즘으로 서명했기에 verify하기 위해서 알고리즘으로 확인 필요
                 JWTVerifier verifier = JWT.require(algorithm).build(); //검증기 제작
                 DecodedJWT decodedJWT = verifier.verify(refresh_token); //토큰 검증하기
-                String userid = decodedJWT.getSubject();
+                String userid = decodedJWT.getSubject(); //TOKEN에 SUBJECT에 MEMBERID저장해놨었음 !! JWT.IO확인!
                 MemberDto member =memberService.getMember(userid); //token으로 이름받아와서 해당이름인 멤버 찾기
                 String access_token = JWT.create()
                         .withSubject(member.getId()) //회원 고유한걸로 해야함 key
@@ -172,8 +167,7 @@ public class MemberController {
             }
         }
         else{
-
-
+            throw new RuntimeException("refresh Token도 만료됌 로그인 다시 하셈 ");
             }
     }
 
@@ -182,6 +176,27 @@ public class MemberController {
     public void exceptionTest() throws SickalException{
         throw new SickalException(Constants.ExceptionClass.MEMBER,HttpStatus.BAD_REQUEST, "승우가 만든 ERROr");
     }
+    /*            login mapping -> springsecurity가 httpintersect ... 아무튼 인터셉 해감 ! 구현할 필요 x
+
+    @PostMapping("/login")
+    public ResponseEntity<MemberDto> login(@Valid @ModelAttribute("memberDto") LoginDto loginDto, BindingResult bindingResult,Model model) throws SickalException{
+        if(bindingResult.hasErrors()){ // binding result valid의 형식에 맞지않으면 그에 맞ㄴ느 오류 생성됌
+            //밑에 binding.reject를 사용해서 글로벌 오류 objectError생성
+            throw new SickalException(Constants.ExceptionClass.Login,HttpStatus.BAD_REQUEST, "문제발생11");
+        }
+        try {
+            MemberDto findMember = memberService.login(loginDto.getId(),loginDto.getPw());
+            LOGGER.info("login정보: {}",findMember);
+
+        }
+        catch (Exception e){
+            throw new SickalException(Constants.ExceptionClass.Login,HttpStatus.BAD_REQUEST, "아이디 또는 비밀번호가 맞지 않습니다.");
+        }
+        //세션에 저장
+        //return ResponseEntity.ok().body(findMember);
+        return ResponseEntity.ok().build();
+        //throw new SickalException(Constants.ExceptionClass.Login,HttpStatus.OK,"로그인 성공");
+    }*/
 
 }
 //Dto

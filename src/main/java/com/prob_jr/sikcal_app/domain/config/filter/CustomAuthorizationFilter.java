@@ -38,22 +38,27 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
     private final Logger LOGGER = LoggerFactory.getLogger(MemberController.class);
 
+    //여기서  url 가로챔
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if(request.getServletPath().equals("/api/login") || request.getServletPath().equals("/api/token/refresh")){
+        if(request.getServletPath().equals("/api/login") ){//|| request.getServletPath().equals("/api/token/refresh")
             //user가 로그인부분에 들어왔다는걸 확인하고 filter적용할 준비
             filterChain.doFilter(request,response);
+            LOGGER.info("login, refresh들어옴");
         }
         else{
             //권한부여 헤더 키 받아오기
             String authorizationHeader = request.getHeader(AUTHORIZATION); //header에 Authorization이라고 전달
+            LOGGER.info("입력 제대로 받아옴? {}", authorizationHeader);
             if(authorizationHeader !=null && authorizationHeader.startsWith("Bearer ")){ //인증헤더임을 확인 시작은 Bearer
                 try {
+                    LOGGER.info("토큰 유효성 검사 시작 ");
                     String token = authorizationHeader.substring("Bearer ".length());
                     Algorithm algorithm = Algorithm.HMAC256("secret".getBytes()); //전에 알고리즘으로 서명했기에 verify하기 위해서 알고리즘으로 확인 필요
                     JWTVerifier verifier = JWT.require(algorithm).build(); //검증기 제작
                     DecodedJWT decodedJWT = verifier.verify(token); //토큰 검증하기
                     String userid = decodedJWT.getSubject();
+                    LOGGER.info("토큰 유효성 검사 시작22 ");
                     String[] roles = decodedJWT.getClaim("roles").asArray(String.class); //roles갖고오기
                     Collection<SimpleGrantedAuthority> authorities= new ArrayList<>();
                     stream(roles).forEach( role ->{
@@ -61,6 +66,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                         // 권한확장을 위한 converter 변환기
                         //사용자 권한 명칭을 정해놓음
                     });
+                    LOGGER.info("토큰 유효성 검사 시작33 ");
                     UsernamePasswordAuthenticationToken authenticationToken =
                             new UsernamePasswordAuthenticationToken(userid,null,authorities);
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
@@ -78,6 +84,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                 }
             }
             else{
+                LOGGER.info("else부분!!!!");
                 filterChain.doFilter(request,response);
             }
 

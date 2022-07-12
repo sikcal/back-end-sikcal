@@ -23,4 +23,8 @@ public class Post {
     @JoinColumn(name = "record_id")
     private Record record;
 
+    @OneToOne(fetch = LAZY)
+    @JoinColumn(name = "favorites_id")
+    private Favorites favorites;
+
 }

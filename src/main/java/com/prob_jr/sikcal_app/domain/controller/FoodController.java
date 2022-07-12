@@ -43,6 +43,4 @@ public class FoodController {
         return ResponseEntity.ok(search.stream().map(FoodInfoResponse::from).collect(Collectors.toList()));
     }
 
-
-
 }

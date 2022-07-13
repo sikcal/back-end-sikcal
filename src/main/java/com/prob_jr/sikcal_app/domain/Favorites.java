@@ -15,4 +15,15 @@ public class Favorites {
     @Column(name = "favorites_id")
     private Long id;
 
+    @OneToOne(fetch = LAZY)
+    @JoinColumn(name = "post_id")
+    private Post post;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+
+
+
 }

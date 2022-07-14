@@ -18,5 +18,5 @@ public class Food {
     private int carbohydrate;
     private int protein;
     private int fat;
-    private int total_kcal;
+    private int totalKcal;
 }

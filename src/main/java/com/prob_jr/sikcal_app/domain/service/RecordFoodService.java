@@ -89,9 +89,9 @@ public class RecordFoodService {
     public void deleteFood(Long recordId) {
         //Record 조회
         Record record = recordRepository.findOne(recordId);
-        //RecordFood조회
+        //RecordFood 조회
         RecordFood recordFood = recordFoodRepository.findOne(recordId);
-        //RecordFood삭제
+        //RecordFood 삭제
         recordFoodRepository.delete(recordFood);
 
     }

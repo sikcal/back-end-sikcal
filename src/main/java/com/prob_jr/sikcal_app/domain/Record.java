@@ -1,10 +1,9 @@
 package com.prob_jr.sikcal_app.domain;
 
 import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,13 +25,17 @@ public class Record {
     @OneToMany(mappedBy = "record", cascade = CascadeType.ALL)
     private List<RecordFood> recordFoods = new ArrayList<>();
 
-    private LocalDateTime recordDate;
+    private LocalDate recordDate;
+
+    private int totalKcal;
+
+    private String requiredFood; //하나의 식단을 구성하는 음식을 concatenate하여 저장할 컬럼
 
     public void setMember(Member member) {
         this.member = member;
     }
 
-    public void setRecordDate(LocalDateTime recordDate) {
+    public void setRecordDate(LocalDate recordDate) {
         this.recordDate = recordDate;
     }
 
@@ -46,7 +49,7 @@ public class Record {
     public static Record createRecord(Member member) {
         Record record = new Record();
         record.setMember(member);
-        record.setRecordDate(LocalDateTime.now()); //식단생성과 함께 생성 당시의 datetime을 set
+        record.setRecordDate(LocalDate.now()); //식단생성과 함께 생성 당시의 date를 set
 
         return record;
     }

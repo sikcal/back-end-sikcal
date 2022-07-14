@@ -55,6 +55,7 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
+
 //querydsl 추가 시작
 def querydslDir = "src/main/generated"
 
@@ -74,3 +75,9 @@ configurations {
 compileQuerydsl {
 	options.annotationProcessorPath = configurations.querydsl
 }
+
+bootJar {
+	archivesBaseName='sikcal_app'
+	archiveFileName='sikcal_app.jar'
+}
+

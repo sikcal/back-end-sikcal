@@ -11,7 +11,7 @@ import static javax.persistence.FetchType.*;
 public class Post {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_id")
     private Long id;
 
@@ -22,5 +22,6 @@ public class Post {
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "record_id")
     private Record record;
+
 
 }

@@ -3,8 +3,6 @@ package com.prob_jr.sikcal_app.domain;
 import lombok.Getter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -20,5 +18,5 @@ public class Food {
     private int carbohydrate;
     private int protein;
     private int fat;
-    private int total_kcal;
+    private int totalKcal;
 }

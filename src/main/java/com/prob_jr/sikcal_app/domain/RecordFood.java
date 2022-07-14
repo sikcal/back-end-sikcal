@@ -11,7 +11,7 @@ import static javax.persistence.FetchType.*;
 public class RecordFood {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "record_food_id")
     private Long id;
 
@@ -22,5 +22,26 @@ public class RecordFood {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "food_id")
     private Food food;
+    public void setFood(Food food) {
+        this.food = food;
+    }
+
+    public void setRecord(Record record) {
+        this.record = record;
+    }
+
+    //====생성 메서드====//
+    public static RecordFood createRecordFood(Record record, Food food) {
+        RecordFood recordFood = new RecordFood();
+        recordFood.setRecord(record);
+        recordFood.setFood(food);
+
+        return recordFood;
+    }
+
+    //====비즈니스 로직====//
+    public void cancel() {
+
+    }
 
 }

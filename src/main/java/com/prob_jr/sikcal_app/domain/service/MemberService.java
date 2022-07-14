@@ -19,4 +19,5 @@ public interface MemberService {
     boolean checkUsernameDuplication(String id);
     InfoDto searchInfoById(String id);
     MemberDto login(String id, String pw);
+
 }

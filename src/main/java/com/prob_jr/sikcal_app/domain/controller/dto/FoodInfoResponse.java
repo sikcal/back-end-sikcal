@@ -11,7 +11,16 @@ public class FoodInfoResponse {
 
     private String foodName;
 
+    private int carbohydrate;
+    private int protein;
+    private int fat;
+    private int total_kcal;
+
     public static FoodInfoResponse from(Food food) {
-        return new FoodInfoResponse(food.getFoodName());
+        return new FoodInfoResponse(food.getFoodName(),
+                food.getCarbohydrate(),
+                food.getProtein(),
+                food.getFat(),
+                food.getTotalKcal());
     }
 }

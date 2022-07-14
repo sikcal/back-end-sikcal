@@ -1,17 +1,17 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/sickal?serverTimezone=UTC&characterEncoding=UTF-8
-    username: root
-    password: 1234
+    url: jdbc:mysql://sikcal.cjnhnl3rox8c.ap-northeast-2.rds.amazonaws.com:3306/sikcal
+    username: admin
+    password: sikcal1234
 
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
-#        show_sql: true
+        show_sql: true
         format_sql: true
   mvc: ##swagger연동을 위한 설정
     pathmatch:

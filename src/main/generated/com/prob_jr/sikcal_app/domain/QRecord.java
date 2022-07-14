@@ -24,13 +24,15 @@ public class QRecord extends EntityPathBase<Record> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
+    public final StringPath kcalInfo = createString("kcalInfo");
+
     public final QMember member;
 
-    public final DateTimePath<java.time.LocalDateTime> recordDate = createDateTime("recordDate", java.time.LocalDateTime.class);
+    public final DatePath<java.time.LocalDate> recordDate = createDate("recordDate", java.time.LocalDate.class);
+
+    public final ListPath<RecordFood, QRecordFood> recordFoods = this.<RecordFood, QRecordFood>createList("recordFoods", RecordFood.class, QRecordFood.class, PathInits.DIRECT2);
 
     public final StringPath requiredFood = createString("requiredFood");
-
-    public final StringPath totalKcal = createString("totalKcal");
 
     public QRecord(String variable) {
         this(Record.class, forVariable(variable), INITS);

@@ -29,7 +29,7 @@ public class QFood extends EntityPathBase<Food> {
 
     public final NumberPath<Integer> protein = createNumber("protein", Integer.class);
 
-    public final NumberPath<Integer> total_kcal = createNumber("total_kcal", Integer.class);
+    public final NumberPath<Integer> totalKcal = createNumber("totalKcal", Integer.class);
 
     public QFood(String variable) {
         super(Food.class, forVariable(variable));

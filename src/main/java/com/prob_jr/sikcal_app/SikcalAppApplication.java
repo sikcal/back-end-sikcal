@@ -41,7 +41,7 @@ public class SikcalAppApplication {
 
 			memberService.join(new MemberDto(
 					"kim12345","kim12345!!","승우김",171, LocalDate.of(1999, 5, 5), MemberSex.MAN, MemberActivity.HARD, MemberGoal.GAIN,71,new ArrayList<>()));
-			memberService.addToRoleToUser("kim12345","ROLE_USER");
+			//memberService.addToRoleToUser("kim12345","ROLE_USER");
 			memberService.addToRoleToUser("kim12345","ROLE_ADMIN");
 
 		};

@@ -20,8 +20,9 @@ public class Favorites {
     private Post post;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name= "member_id")
     private Member member;
+
 
 
 

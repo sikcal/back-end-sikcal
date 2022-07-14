@@ -1,27 +1,23 @@
 package com.prob_jr.sikcal_app.domain.service;
 
-import com.prob_jr.sikcal_app.domain.Member;
-import com.prob_jr.sikcal_app.domain.repository.MemberRepository;
-import lombok.RequiredArgsConstructor;
+
+import com.prob_jr.sikcal_app.domain.Role;
+import com.prob_jr.sikcal_app.domain.service.dto.InfoDto;
+import com.prob_jr.sikcal_app.domain.service.dto.MemberDto;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.Errors;
+
+import java.util.Map;
 
 @Service
-@RequiredArgsConstructor
-@Transactional(readOnly = true)
-public class MemberService {
+public interface MemberService {
+    MemberDto join(MemberDto memberDto);
+    Role saveRole(Role role);
+    void addToRoleToUser(String userid,String roleName);
+    MemberDto getMember(String userid);
+    Map<String, String> validateHandling(Errors errors);
+    boolean checkUsernameDuplication(String id);
+    InfoDto searchInfoById(String id);
+    MemberDto login(String id, String pw);
 
-    private final MemberRepository memberRepository;
-
-    //회원가입
-    @Transactional
-    public String join(Member member) {
-        validateDuplicateMember(member);
-        memberRepository.save(member);
-        return member.getId();
-    }
-    //회원 검증 메소드 - 미구현
-    private void validateDuplicateMember(Member member) {
-
-    }
 }

@@ -1,9 +1,10 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/sikcal?serverTimezone=UTC&characterEncoding=UTF-8
-    username: jeomxon
-    password: sikcal1234@
+    url: jdbc:mysql://sikcal.cjnhnl3rox8c.ap-northeast-2.rds.amazonaws.com:3306/sikcal
+    username: admin
+    password: sikcal1234
+
 
   jpa:
     hibernate:
@@ -12,7 +13,14 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
-
+  mvc: ##swagger연동을 위한 설정
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  redis:
+    port: 6379
+    host: localhost
+jwt:
+  secret: sikcalsickalsikalsikcalsickalsikal
 logging:
   level:
     org.hibernate.SQL: debug

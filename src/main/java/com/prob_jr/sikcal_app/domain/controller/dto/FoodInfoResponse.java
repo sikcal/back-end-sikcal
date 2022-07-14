@@ -10,6 +10,7 @@ import lombok.Getter;
 public class FoodInfoResponse {
 
     private String foodName;
+
     private int carbohydrate;
     private int protein;
     private int fat;
@@ -20,6 +21,6 @@ public class FoodInfoResponse {
                 food.getCarbohydrate(),
                 food.getProtein(),
                 food.getFat(),
-                food.getTotal_kcal());
+                food.getTotalKcal());
     }
 }

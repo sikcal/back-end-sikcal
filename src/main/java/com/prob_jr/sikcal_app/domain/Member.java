@@ -49,6 +49,7 @@ public class Member {
     //Lazy 지연로딩을 할 시 select두번 나감 비효율적
     //Eager 즉시 로딩은 jpa가 join을 이용해 한방 쿼리로 다 조회해옴 개꿀
     @ManyToMany(fetch=FetchType.EAGER)
+    @Builder.Default
     private Collection<Role> roles= new ArrayList<>();
 //1:28
     //member에서 dto로

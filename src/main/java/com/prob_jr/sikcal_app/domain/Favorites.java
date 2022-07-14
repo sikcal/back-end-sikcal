@@ -19,4 +19,7 @@ public class Favorites {
     @JoinColumn(name = "post_id")
     private Post post;
 
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name= "member_id")
+    private Member member;
 }

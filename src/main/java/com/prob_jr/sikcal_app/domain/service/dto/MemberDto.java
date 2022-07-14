@@ -49,6 +49,7 @@ public class MemberDto {
     private MemberActivity activity;
     private MemberGoal goal;
     private int weight;
+    @Builder.Default
     private Collection<Role> roles= new ArrayList<>();
 
 

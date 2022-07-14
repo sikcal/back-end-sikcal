@@ -22,4 +22,9 @@ public class Record {
 
     private LocalDateTime recordDate;
 
+    private String totalKcal;
+
+    private String requiredFood;
+
+
 }

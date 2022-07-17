@@ -1,6 +1,7 @@
 package com.prob_jr.sikcal_app.domain;
 
 import lombok.Getter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -16,6 +17,7 @@ public class Calendar {
     @Column(name = "calendar_id")
     private Long id;
 
+    @DateTimeFormat(pattern = "yyyy-mm-dd")
     private LocalDate calendarDate;
 
     @ManyToOne(fetch = LAZY)

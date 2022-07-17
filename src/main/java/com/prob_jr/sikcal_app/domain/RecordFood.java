@@ -22,6 +22,7 @@ public class RecordFood {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "food_id")
     private Food food;
+
     public void setFood(Food food) {
         this.food = food;
     }
@@ -37,11 +38,6 @@ public class RecordFood {
         recordFood.setFood(food);
 
         return recordFood;
-    }
-
-    //====비즈니스 로직====//
-    public void cancel() {
-
     }
 
 }

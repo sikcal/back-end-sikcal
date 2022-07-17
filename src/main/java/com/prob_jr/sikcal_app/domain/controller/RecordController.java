@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/user")
 public class RecordController {
 
     private final RecordFoodService recordFoodService;
@@ -28,16 +28,5 @@ public class RecordController {
 
         return ResponseEntity.ok().build();
     }
-
-
-
-
-
-
-
-
-
-
-
 
 }

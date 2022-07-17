@@ -25,6 +25,7 @@ public class RecordController {
 
     private final RecordFoodService recordFoodService;
     private final FavoritesService favoritesService;
+
     @PostMapping("/record")
     public ResponseEntity<Void> record(@RequestBody CreateRecordRequest createRequest) {
         recordFoodService.record(createRequest.toServiceDto());
@@ -39,12 +40,12 @@ public class RecordController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/myFavorites")
+    @GetMapping("/my-favorites")
     public ResponseEntity<List<RecipeDto>> getFavorites(HttpServletRequest request){
         String authorizationHeader = request.getHeader(AUTHORIZATION); //REFRESHTOKEN잉 있다면
-        String access_token = authorizationHeader.substring("Bearer ".length()); //bearer부분 짜르고 token검증
-        String user_id= TokenIdUtil.Decoder(access_token);
-        return ResponseEntity.ok().body(favoritesService.MyFavorites(user_id));
+        String accessToken = authorizationHeader.substring("Bearer ".length()); //bearer부분 짜르고 token검증
+        String userId = TokenIdUtil.Decoder(accessToken);
+        return ResponseEntity.ok().body(favoritesService.MyFavorites(userId));
     }
 
 

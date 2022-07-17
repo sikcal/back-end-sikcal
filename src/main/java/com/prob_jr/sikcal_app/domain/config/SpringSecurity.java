@@ -49,21 +49,26 @@ public class SpringSecurity extends
     * */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // FILTER PATH재정의 해주기 EXTENS부분 들어가면 DEFAULT로 /LOGIN되어있음 우리 app에 맞게 customize해주기
-        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
-        customAuthenticationFilter.setUsernameParameter("userid");
-        customAuthenticationFilter.setFilterProcessesUrl("/api/login");
-        http.csrf().disable()
-                .sessionManagement().sessionCreationPolicy(STATELESS);
-        //토큰없이도 모든자에게 permit되는 사이트 주소록들  swagger 밑 login , 회원가입 부분
-        http.authorizeRequests().antMatchers("/api/login/**","/api/token/refresh/**","/api/join/**","/swagger-ui.html","/swagger/**",
-                "/swagger-resources/**","/webjars/**","/v2/api-docs").permitAll();
-        http.authorizeRequests().antMatchers(GET,"/api/user/**").hasAnyAuthority("ROLE_USER"); //해당 주소 뒤로는 권한이 있는사람만 접근가능
-        http.authorizeRequests().antMatchers(POST,"/api/user/**").hasAnyAuthority("ROLE_USER");
-        http.authorizeRequests().anyRequest().authenticated(); //인증을 쓰겠다 permitall이 아닌
-        http.addFilter(customAuthenticationFilter);
-        http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+//        // FILTER PATH재정의 해주기 EXTENS부분 들어가면 DEFAULT로 /LOGIN되어있음 우리 app에 맞게 customize해주기
+//        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
+//        customAuthenticationFilter.setUsernameParameter("userid");
+//        customAuthenticationFilter.setFilterProcessesUrl("/api/login");
+//        http.csrf().disable()
+//                .sessionManagement().sessionCreationPolicy(STATELESS);
+//        //토큰없이도 모든자에게 permit되는 사이트 주소록들  swagger 밑 login , 회원가입 부분
+//        http.authorizeRequests().antMatchers("/api/login/**","/api/token/refresh/**","/api/join/**","/swagger-ui.html","/swagger/**",
+//                "/swagger-resources/**","/webjars/**","/v2/api-docs").permitAll();
+//        http.authorizeRequests().antMatchers(GET,"/api/user/**").hasAnyAuthority("ROLE_USER"); //해당 주소 뒤로는 권한이 있는사람만 접근가능
+//        http.authorizeRequests().antMatchers(POST,"/api/user/**").hasAnyAuthority("ROLE_USER");
+//        http.authorizeRequests().anyRequest().authenticated(); //인증을 쓰겠다 permitall이 아닌
+//        http.addFilter(customAuthenticationFilter);
+//        http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 
+        //토큰 없이도 모든 api요청에 권한을 주도록 하는 코드
+        http.csrf().disable()
+                .sessionManagement()
+                .sessionCreationPolicy(STATELESS);
+        http.authorizeRequests().anyRequest().permitAll();
     }
     //이 원리 말로 설명 못하겠음 너무 어려움 ㅠ
     //대충 상속받는 super클래스에있는 manager 의존성주입하는느낌 ex entitymanager너낌 임

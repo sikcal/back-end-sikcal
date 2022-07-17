@@ -26,14 +26,31 @@ public class Record {
     @OneToMany(mappedBy = "record", cascade = CascadeType.ALL)
     private List<RecordFood> recordFoods = new ArrayList<>();
 
-    private LocalDate recordDate;
+    private LocalDate recordDate; //식단을 추가한 날짜를 저장할 컬럼
 
+    //식단의 탄단지 및 담긴 음식 전체 칼로리를 저장할 컬럼
+    private int totalCarbohydrate;
+    private int totalProtein;
+    private int totalFat;
+    private int totalKcal;
 
-    private String requiredFood; //하나의 식단을 구성하는 음식을 concatenate하여 저장할 컬럼
-    //토마토: ()g 계란 ()g 닭가슴살 ()g 청양고추 ()g
-    private String kcalInfo; // 총 ()kcal 탄수화물: ()g 단백질: ()g 지방: ()g
+    private String requiredFood; //하나의 식단을 구성하는 음식을 concatenate하여 저장할 컬럼 || 토마토: ()g 계란 ()g 닭가슴살 ()g 청양고추 ()g
 
+    public void setTotalCarbohydrate(int totalCarbohydrate) {
+        this.totalCarbohydrate = totalCarbohydrate;
+    }
 
+    public void setTotalProtein(int totalProtein) {
+        this.totalProtein = totalProtein;
+    }
+
+    public void setTotalFat(int totalFat) {
+        this.totalFat = totalFat;
+    }
+
+    public void setTotalKcal(int totalKcal) {
+        this.totalKcal = totalKcal;
+    }
 
     public void setRecordDate(LocalDate recordDate) {
         this.recordDate = recordDate;

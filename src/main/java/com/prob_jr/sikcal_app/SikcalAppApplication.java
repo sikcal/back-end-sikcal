@@ -32,19 +32,19 @@ public class SikcalAppApplication {
 
 
 
-	//테스트를 위한 초기회원들 입력
-	@Bean
-	CommandLineRunner run(MemberService memberService){
-		return args -> {
-			memberService.saveRole(new Role(null,"ROLE_USER"));
-			memberService.saveRole(new Role(null,"ROLE_ADMIN"));
-
-			memberService.join(new MemberDto(
-					"kim12345","kim12345!!","승우김",171, LocalDate.of(1999, 5, 5), MemberSex.MAN, MemberActivity.HARD, MemberGoal.GAIN,71,new ArrayList<>()));
-			//memberService.addToRoleToUser("kim12345","ROLE_USER");
-			memberService.addToRoleToUser("kim12345","ROLE_ADMIN");
-
-		};
-
-	}
+//	//테스트를 위한 초기회원들 입력
+//	@Bean
+//	CommandLineRunner run(MemberService memberService){
+//		return args -> {
+//			memberService.saveRole(new Role(null,"ROLE_USER"));
+//			memberService.saveRole(new Role(null,"ROLE_ADMIN"));
+//
+//			memberService.join(new MemberDto(
+//					"kim12345","kim12345!!","승우김",171, LocalDate.of(1999, 5, 5), MemberSex.MAN, MemberActivity.HARD, MemberGoal.GAIN,71,new ArrayList<>()));
+//			//memberService.addToRoleToUser("kim12345","ROLE_USER");
+//			memberService.addToRoleToUser("kim12345","ROLE_ADMIN");
+//
+//		};
+//
+//	}
 }

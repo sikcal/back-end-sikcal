@@ -6,9 +6,11 @@ buildscript {
 plugins {
 	id 'org.springframework.boot' version '2.6.7'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id 'java'
 	//querydsl 추가
 	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+	id 'java'
+
+
 }
 
 group = 'com.prob_jr'
@@ -30,6 +32,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+	//implementation 'junit:junit:4.13.1'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -37,7 +40,9 @@ dependencies {
 
 	//querydsl 추가
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
-	annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
+	implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+	//implementation "com.querydsl:querydsl-apt"
+	//implementation 'com.querydsl:querydsl-jpa'
 	//swagger
 	//https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui
 	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
@@ -55,27 +60,36 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
-
-//querydsl 추가 시작
-def querydslDir = "src/main/generated"
-
+/*
+ * queryDSL 설정 추가
+ */
+// querydsl에서 사용할 경로 설정
+def querydslDir = "$buildDir/generated/querydsl"
+// JPA 사용 여부와 사용할 경로를 설정
 querydsl {
 	jpa = true
 	querydslSourcesDir = querydslDir
 }
-
+// build 시 사용할 sourceSet 추가
 sourceSets {
 	main.java.srcDir querydslDir
 }
-
+// querydsl 컴파일시 사용할 옵션 설정
+compileQuerydsl{
+	options.annotationProcessorPath = configurations.querydsl
+}
+// querydsl 이 compileClassPath 를 상속하도록 설정
 configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
 	querydsl.extendsFrom compileClasspath
 }
 
-compileQuerydsl {
-	options.annotationProcessorPath = configurations.querydsl
+compileQuerydsl.doFirst {
+	if(file(querydslDir).exists() )
+		delete(file(querydslDir))
 }
-
 bootJar {
 	archivesBaseName='sikcal_app'
 	archiveFileName='sikcal_app.jar'

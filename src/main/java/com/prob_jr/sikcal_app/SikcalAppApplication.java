@@ -6,6 +6,8 @@ import com.prob_jr.sikcal_app.domain.MemberSex;
 import com.prob_jr.sikcal_app.domain.Role;
 import com.prob_jr.sikcal_app.domain.service.MemberService;
 import com.prob_jr.sikcal_app.domain.service.dto.MemberDto;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,21 +20,30 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 @SpringBootApplication
+@RequiredArgsConstructor
 public class SikcalAppApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SikcalAppApplication.class, args);
 	}
 
-
+	private final EntityManager em;
 	@Bean
 	PasswordEncoder passwordEncoder(){
 		return new BCryptPasswordEncoder();
 	}
 
+	@Bean
+	public JPAQueryFactory jpaQueryFactory(){
+		return new JPAQueryFactory(em);
+	}
+
+
+
 
 
 	//테스트를 위한 초기회원들 입력
+	/*
 	@Bean
 	CommandLineRunner run(MemberService memberService){
 		return args -> {
@@ -46,5 +57,5 @@ public class SikcalAppApplication {
 
 		};
 
-	}
+	}*/
 }

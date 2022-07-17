@@ -52,12 +52,12 @@ public class MemberController {
     @GetMapping ("/user/info")
     public ResponseEntity<InfoDto> getMainInfo(HttpServletRequest request ){
         String authorizationHeader = request.getHeader(AUTHORIZATION); //REFRESHTOKEN잉 있다면
-        String refresh_token = authorizationHeader.substring("Bearer ".length()); //bearer부분 짜르고 token검증
+        String access_token = authorizationHeader.substring("Bearer ".length()); //bearer부분 짜르고 token검증
         Algorithm algorithm = Algorithm.HMAC256("secret".getBytes()); //전에 알고리즘으로 서명했기에 verify하기 위해서 알고리즘으로 확인 필요
         JWTVerifier verifier = JWT.require(algorithm).build(); //검증기 제작
-        DecodedJWT decodedJWT = verifier.verify(refresh_token); //토큰 검증하기
+        DecodedJWT decodedJWT = verifier.verify(access_token); //토큰 검증하기
         String userid = decodedJWT.getSubject(); //TOKEN에 SUBJECT에 MEMBERID저장해놨었음 !! JWT.IO확인!
-        LOGGER.info("입력된 id {}",userid);
+        LOGGER.info("token으로받은 아이디}",userid);
         InfoDto infoDto = memberService.searchInfoById(userid);
         return ResponseEntity.ok().body(infoDto);
     }
@@ -93,7 +93,7 @@ public class MemberController {
             return ResponseEntity.created(uri).body(memberDto1); //code 201 무언가 만들어졌음
         }
         catch (Exception e){
-            throw new SickalException(Constants.ExceptionClass.MEMBER,HttpStatus.BAD_REQUEST, "뭔가 잘못된게 있음");
+            throw new SickalException(Constants.ExceptionClass.MEMBER,HttpStatus.BAD_REQUEST, "뭔가 잘못된게 있음"+e.getMessage());
         }
         //throw new SickalException(Constants.ExceptionClass.MEMBER,HttpStatus.OK, "회원가입 성공 두 단계 다 통과함 ㅋ");
     }
@@ -123,10 +123,7 @@ public class MemberController {
         return ResponseEntity.ok().build(); //코드 200 반환
     }
 
-    /**
-     *
-     * @throws SickalException
-     */
+
     // refreshToken으로 accesstoken 재발급
     // Header로 받기
     @GetMapping("/token/refresh")
@@ -172,7 +169,7 @@ public class MemberController {
     }
 
     // custom exception만든거 test해보깅
-    @PostMapping("user/exception")
+    @PostMapping("/user/exception")
     public void exceptionTest() throws SickalException{
         throw new SickalException(Constants.ExceptionClass.MEMBER,HttpStatus.BAD_REQUEST, "승우가 만든 ERROr");
     }

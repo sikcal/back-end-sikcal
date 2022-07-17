@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/user")
 public class FoodController {
 
     private final RecordFoodService recordFoodService;

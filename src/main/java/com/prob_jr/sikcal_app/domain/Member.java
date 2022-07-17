@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Data
@@ -51,7 +52,12 @@ public class Member {
     @ManyToMany(fetch=FetchType.EAGER)
     //@Builder.Default
     private Collection<Role> roles= new ArrayList<>();
-//1:28
+    //멤버 불러올때마다 즐겨찾기 목록도 불러와?
+    /*
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Collection<Favorites> favorites = new ArrayList<>();*/
+
+    //1:28
     //member에서 dto로
     public MemberDto toDto(){
         return MemberDto.builder().id(id)

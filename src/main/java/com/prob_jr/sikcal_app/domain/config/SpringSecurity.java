@@ -50,6 +50,7 @@ public class SpringSecurity extends
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // FILTER PATH재정의 해주기 EXTENS부분 들어가면 DEFAULT로 /LOGIN되어있음 우리 app에 맞게 customize해주기
+
         CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
         customAuthenticationFilter.setUsernameParameter("userid");
         customAuthenticationFilter.setFilterProcessesUrl("/api/login");
@@ -63,6 +64,13 @@ public class SpringSecurity extends
         http.authorizeRequests().anyRequest().authenticated(); //인증을 쓰겠다 permitall이 아닌
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+
+
+        /*
+        http.csrf().disable()
+                .sessionManagement().
+                sessionCreationPolicy(STATELESS);
+        http.authorizeRequests().anyRequest().permitAll();*/
 
     }
     //이 원리 말로 설명 못하겠음 너무 어려움 ㅠ

@@ -8,20 +8,10 @@ import java.util.Optional;
 
 public interface JpaMemberRepository extends JpaRepository<Member,String> {
 
-    Optional<Member> findByName(String name);
-    //List<Member> findAll();
+
     boolean existsById(String id);
 
     Optional<Member> findById(String id);
-    //boolean existsByName(String name);
-    /*
-    @Override
-    default Optional<Member> findById(String id) {
-        return Optional.empty();
-    }
 
-    @Override
-    Optional<Member> findByName(String name);
-    */
 
 }

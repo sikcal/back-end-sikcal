@@ -5,6 +5,7 @@ import com.prob_jr.sikcal_app.domain.service.dto.RecipeDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ import static com.prob_jr.sikcal_app.domain.QPost.post;
 import static com.prob_jr.sikcal_app.domain.QRecord.record;
 
 //querydsl을 이용한 여러테이블 조인
-
+@Repository
 public class FavoritesRepository {
 
     @Autowired

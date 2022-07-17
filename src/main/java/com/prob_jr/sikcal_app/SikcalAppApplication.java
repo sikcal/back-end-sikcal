@@ -40,8 +40,6 @@ public class SikcalAppApplication {
 
 
 
-
-
 	//테스트를 위한 초기회원들 입력
 	/*
 	@Bean
@@ -58,4 +56,5 @@ public class SikcalAppApplication {
 		};
 
 	}*/
+
 }

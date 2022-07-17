@@ -1,29 +1,22 @@
 package com.prob_jr.sikcal_app.domain.repository;
 
-import com.prob_jr.sikcal_app.domain.Food;
 import com.prob_jr.sikcal_app.domain.Record;
-import com.prob_jr.sikcal_app.domain.RecordFood;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import javax.persistence.EntityManager;
-import java.util.List;
 
-@Repository
-@RequiredArgsConstructor
-public class RecordRepository {
+public interface RecordRepository extends JpaRepository<Record, Long> {
 
-    private final EntityManager em;
-
-    public void save(Record record) {
-        em.persist(record);
-    }
-
-    public Record findOne(Long id) {
-        return em.find(Record.class, id);
-    }
-
-    public void delete(Record record) {
-        em.remove(record);
-    }
+//    private final EntityManager em;
+//
+//    public void save(Record record) {
+//        em.persist(record);
+//    }
+//
+//    public Record findOne(Long id) {
+//        return em.find(Record.class, id);
+//    }
+//
+//    public void delete(Record record) {
+//        em.remove(record);
+//    }
 }

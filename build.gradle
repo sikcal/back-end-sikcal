@@ -11,6 +11,7 @@ plugins {
 	id 'java'
 
 
+
 }
 
 group = 'com.prob_jr'
@@ -38,11 +39,11 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	runtimeOnly 'mysql:mysql-connector-java'
 
+
 	//querydsl 추가
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
 	implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
-	//implementation "com.querydsl:querydsl-apt"
-	//implementation 'com.querydsl:querydsl-jpa'
+
 	//swagger
 	//https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui
 	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
@@ -59,6 +60,7 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
 
 /*
  * queryDSL 설정 추가
@@ -90,6 +92,7 @@ compileQuerydsl.doFirst {
 	if(file(querydslDir).exists() )
 		delete(file(querydslDir))
 }
+
 bootJar {
 	archivesBaseName='sikcal_app'
 	archiveFileName='sikcal_app.jar'

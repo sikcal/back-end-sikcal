@@ -5,7 +5,6 @@ spring:
     username: admin
     password: sikcal1234
 
-
   jpa:
     hibernate:
       ddl-auto: update
@@ -13,12 +12,17 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
+
   mvc: ##swagger연동을 위한 설정
     pathmatch:
       matching-strategy: ant_path_matcher
 
-
 ##logging:
 ##  level:
 ##    org.hibernate.SQL: debug
-#    org.hibernate.type: trace
+server:
+  port= 8090
+
+logging:
+  level:
+    org.hibernate.SQL: debug

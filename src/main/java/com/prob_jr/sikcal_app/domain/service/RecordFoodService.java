@@ -37,6 +37,14 @@ public class RecordFoodService {
         //식단 생성
         Record record = Record.createRecord(member);
 
+        //식단의 탄단지 및 총 칼로리를 초기값인 0으로 설정
+        record.setTotalCarbohydrate(0);
+        record.setTotalProtein(0);
+        record.setTotalFat(0);
+
+        record.setTotalKcal(0);
+
+
         recordRepository.save(record);
 
         return record.getId();
@@ -50,12 +58,13 @@ public class RecordFoodService {
     public void deleteRecord(Long recordId) {
         //엔티티 조회
         List<RecordFood> foods = recordFoodRepository.findFoods(recordId);
-        Record record = recordRepository.findOne(recordId);
+        Record record = recordRepository.findById(recordId).orElseThrow(null);
 
         //하나씩 recordfood 전부 삭제
         for (RecordFood recordFood : foods) {
             recordFoodRepository.delete(recordFood);
         }
+
         //record 삭제
         recordRepository.delete(record);
     }
@@ -71,11 +80,17 @@ public class RecordFoodService {
         Long foodId = foodSaveDto.getFoodId();
 
         // record 조회
-        Record record = recordRepository.findOne(recordId);
+        Record record = recordRepository.findById(recordId).orElseThrow(null);
         // food 조회
         Food food = foodRepository.findById(foodId).orElseThrow(null);
         // record food 생성
         RecordFood recordFood = RecordFood.createRecordFood(record, food);
+
+        //원래의 탄단지 및 총 칼로리에 추가된 음식의 탄단지 및 칼로리 양을 더해 추가된 값을 set
+        record.setTotalCarbohydrate(record.getTotalCarbohydrate() + food.getCarbohydrate());
+        record.setTotalProtein(record.getTotalProtein() + food.getProtein());
+        record.setTotalFat(record.getTotalFat() + food.getFat());
+        record.setTotalKcal(record.getTotalKcal() + food.getTotalKcal());
 
         recordFoodRepository.save(recordFood);
 
@@ -88,9 +103,16 @@ public class RecordFoodService {
     @Transactional
     public void deleteFood(Long recordId) {
         //Record 조회
-        Record record = recordRepository.findOne(recordId);
+        Record record = recordRepository.findById(recordId).orElseThrow(null);
         //RecordFood 조회
         RecordFood recordFood = recordFoodRepository.findOne(recordId);
+
+        //식단에서 삭제한 음식의 탄단지 및 칼로리를 원래 식단의 값에서 빼줌
+        record.setTotalCarbohydrate(record.getTotalCarbohydrate() - recordFood.getFood().getCarbohydrate());
+        record.setTotalProtein(record.getTotalProtein() - recordFood.getFood().getProtein());
+        record.setTotalFat(record.getTotalFat() - recordFood.getFood().getFat());
+        record.setTotalKcal(record.getTotalKcal() - recordFood.getFood().getTotalKcal());
+
         //RecordFood 삭제
         recordFoodRepository.delete(recordFood);
 

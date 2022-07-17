@@ -6,7 +6,7 @@ import com.prob_jr.sikcal_app.domain.MemberActivity;
 import com.prob_jr.sikcal_app.domain.MemberSex;
 import com.prob_jr.sikcal_app.domain.Role;
 import com.prob_jr.sikcal_app.domain.controller.MemberController;
-import com.prob_jr.sikcal_app.domain.repository.JpaMemberRepository;
+import com.prob_jr.sikcal_app.domain.repository.MemberRepository;
 import com.prob_jr.sikcal_app.domain.repository.RoleRepository;
 import com.prob_jr.sikcal_app.domain.service.dto.InfoDto;
 import com.prob_jr.sikcal_app.domain.service.dto.MemberDto;
@@ -33,8 +33,8 @@ import java.util.*;
 @RequiredArgsConstructor
 @Transactional
 public class MemberServiceImpl implements MemberService, UserDetailsService {
-    private  final JpaMemberRepository memberRepository;
-    private  final RoleRepository roleRepository;
+    private final MemberRepository memberRepository;
+    private final RoleRepository roleRepository;
     private final Logger LOGGER = LoggerFactory.getLogger(MemberController.class);
     private final PasswordEncoder passwordEncoder;
 

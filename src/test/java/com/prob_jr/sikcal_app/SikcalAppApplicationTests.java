@@ -32,15 +32,15 @@ class SikcalAppApplicationTests {
 				.fetch();
 		Assertions.assertThat(results.size()==1);
 	}
-	@Test
-	void 세타조인테스트(){
-		//JPAQueryFactory query = new JPAQueryFactory(em);
-		List<RecipeDto> results =
-				query.select(Projections.constructor(RecipeDto.class,favorites.member.id, record.kcalInfo, record.requiredFood,post.recipe))
-						.from(favorites, post, record)
-						.where(favorites.member.id.eq("kim12345"),favorites.post.id.eq(post.id),post.record.id.eq(record.id))
-						.fetch();
-		Assertions.assertThat(results.size()==0);
-	}
+//	@Test
+//	void 세타조인테스트(){
+//		//JPAQueryFactory query = new JPAQueryFactory(em);
+//		List<RecipeDto> results =
+//				query.select(Projections.constructor(RecipeDto.class,favorites.member.id, record.kcalInfo, record.requiredFood,post.recipe))
+//						.from(favorites, post, record)
+//						.where(favorites.member.id.eq("kim12345"),favorites.post.id.eq(post.id),post.record.id.eq(record.id))
+//						.fetch();
+//		Assertions.assertThat(results.size()==0);
+//	}
 
 }

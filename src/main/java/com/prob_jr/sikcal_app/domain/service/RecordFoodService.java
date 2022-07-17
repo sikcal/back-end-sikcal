@@ -5,6 +5,7 @@ import com.prob_jr.sikcal_app.domain.Member;
 import com.prob_jr.sikcal_app.domain.Record;
 import com.prob_jr.sikcal_app.domain.RecordFood;
 import com.prob_jr.sikcal_app.domain.repository.*;
+import com.prob_jr.sikcal_app.domain.service.dto.FoodDeleteDto;
 import com.prob_jr.sikcal_app.domain.service.dto.FoodRecordDto;
 import com.prob_jr.sikcal_app.domain.service.dto.FoodSaveDto;
 import com.prob_jr.sikcal_app.domain.service.dto.RecordFoodSearchCond;
@@ -101,11 +102,14 @@ public class RecordFoodService {
      * 음식 삭제
      */
     @Transactional
-    public void deleteFood(Long recordId) {
+    public void deleteFood(FoodDeleteDto foodDeleteDto) {
+        Long recordId = foodDeleteDto.getRecordId();
+        Long recordFoodId = foodDeleteDto.getRecordFoodId();
+
         //Record 조회
         Record record = recordRepository.findById(recordId).orElseThrow(null);
         //RecordFood 조회
-        RecordFood recordFood = recordFoodRepository.findOne(recordId);
+        RecordFood recordFood = recordFoodRepository.findOne(recordFoodId);
 
         //식단에서 삭제한 음식의 탄단지 및 칼로리를 원래 식단의 값에서 빼줌
         record.setTotalCarbohydrate(record.getTotalCarbohydrate() - recordFood.getFood().getCarbohydrate());
@@ -125,7 +129,5 @@ public class RecordFoodService {
 
         return foodRepository.findAllByFoodNameContains(recordFoodSearchCond.getFoodName());
     }
-
-
-
+    
 }

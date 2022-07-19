@@ -29,6 +29,7 @@ public class FavoritesRepository {
                         .from(favorites, post, record)
                         .where(favorites.member.id.eq(id),favorites.post.id.eq(post.id),post.record.id.eq(record.id))
                         .fetch();
+
         return results;
     }
 

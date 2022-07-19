@@ -5,6 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -19,6 +22,23 @@ public class SickalExceptionHandler {
 
     private final Logger LOGGER = LoggerFactory.getLogger(SickalExceptionHandler.class);
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public String processValidationError(MethodArgumentNotValidException exception) {
+        BindingResult bindingResult = exception.getBindingResult();
+
+        StringBuilder builder = new StringBuilder();
+        for (FieldError fieldError : bindingResult.getFieldErrors()) {
+            builder.append("[");
+            builder.append(fieldError.getField());
+            builder.append("](은)는 ");
+            builder.append(fieldError.getDefaultMessage());
+            builder.append(" 입력된 값: [");
+            builder.append(fieldError.getRejectedValue());
+            builder.append("]");
+        }
+
+        return builder.toString();
+    }
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<Map<String, String>> ExceptionHandler(Exception e) {
         HttpHeaders responseHeaders = new HttpHeaders();

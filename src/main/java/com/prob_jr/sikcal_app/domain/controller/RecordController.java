@@ -38,8 +38,11 @@ public class RecordController {
 
         return ResponseEntity.ok().build();
     }
+    /*@PostMapping("/")
+    public ResponseEntity<?>*/
 
-    @GetMapping("/myFavorites")
+
+    @GetMapping("/my_favorites")
     public ResponseEntity<List<RecipeDto>> getFavorites(HttpServletRequest request){
         String authorizationHeader = request.getHeader(AUTHORIZATION); //REFRESHTOKEN잉 있다면
         String access_token = authorizationHeader.substring("Bearer ".length()); //bearer부분 짜르고 token검증

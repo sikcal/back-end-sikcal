@@ -132,6 +132,7 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
        return infoDto;
     }
 
+    /*
     @Override
     public MemberDto login(String id, String rawPw) {
         //인코딩해서 값 비교
@@ -143,7 +144,7 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
         LOGGER.info("login 정보!!!{}",member);
         MemberDto memberDto = member.toDto();
         return memberDto;
-    }
+    }*/
 
     public double CalculateBMR(int weight, int height, int age, MemberSex sex){
         double BMR=((10*weight)+(6.25*height)-(5*age));

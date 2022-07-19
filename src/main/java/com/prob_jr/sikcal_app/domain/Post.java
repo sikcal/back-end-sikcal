@@ -17,6 +17,7 @@ public class Post {
 
     private String menu;
     private Long numOfLike;
+    @Lob
     private String recipe;
 
     @OneToOne(fetch = LAZY)

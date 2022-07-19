@@ -7,6 +7,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.prob_jr.sikcal_app.domain.Role;
+import com.prob_jr.sikcal_app.domain.config.TokenIdUtil;
 import com.prob_jr.sikcal_app.domain.exception.Constants;
 import com.prob_jr.sikcal_app.domain.exception.SickalException;
 import com.prob_jr.sikcal_app.domain.service.dto.InfoDto;
@@ -61,6 +62,14 @@ public class MemberController {
         InfoDto infoDto = memberService.searchInfoById(userid);
         return ResponseEntity.ok().body(infoDto);
     }
+    @GetMapping("/user")
+    public ResponseEntity<MemberDto> getMember(HttpServletRequest request){
+        String authorizationHeader = request.getHeader(AUTHORIZATION);
+        String access_token = authorizationHeader.substring("Bearer ".length()); //bearer부분 짜르고 token검증
+        String user_id= TokenIdUtil.Decoder(access_token);
+        return ResponseEntity.ok().body(memberService.getMember(user_id));
+    }
+
 
     //같은 url이더라도 데이터 조회는 get, 등록은 Post
     //객체로 받기

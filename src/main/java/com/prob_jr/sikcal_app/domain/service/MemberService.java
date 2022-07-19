@@ -15,9 +15,8 @@ public interface MemberService {
     Role saveRole(Role role);
     void addToRoleToUser(String userid,String roleName);
     MemberDto getMember(String userid);
-    Map<String, String> validateHandling(Errors errors);
     boolean checkUsernameDuplication(String id);
     InfoDto searchInfoById(String id);
-    MemberDto login(String id, String pw);
+
 
 }

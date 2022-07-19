@@ -8,6 +8,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -18,6 +19,7 @@ import static com.prob_jr.sikcal_app.domain.QPost.post;
 import static com.prob_jr.sikcal_app.domain.QRecord.record;
 
 @SpringBootTest
+@EnableScheduling
 class SikcalAppApplicationTests {
 
 	//@Autowired

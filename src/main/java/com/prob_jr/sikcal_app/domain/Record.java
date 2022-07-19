@@ -1,6 +1,7 @@
 package com.prob_jr.sikcal_app.domain;
 
 import lombok.Getter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -26,6 +27,7 @@ public class Record {
     @OneToMany(mappedBy = "record", cascade = CascadeType.ALL)
     private List<RecordFood> recordFoods = new ArrayList<>();
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate recordDate; //식단을 추가한 날짜를 저장할 컬럼
 
     //식단의 탄단지 및 담긴 음식 전체 칼로리를 저장할 컬럼

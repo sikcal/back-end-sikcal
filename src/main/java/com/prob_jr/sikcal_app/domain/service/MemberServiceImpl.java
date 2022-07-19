@@ -10,6 +10,7 @@ import com.prob_jr.sikcal_app.domain.repository.MemberRepository;
 import com.prob_jr.sikcal_app.domain.repository.RoleRepository;
 import com.prob_jr.sikcal_app.domain.service.dto.InfoDto;
 import com.prob_jr.sikcal_app.domain.service.dto.MemberDto;
+import com.prob_jr.sikcal_app.domain.service.dto.WeightChangeDto;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -195,6 +196,21 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
         return age;
     }
 
+    /**
+     * 체중 변경
+     */
+    @Transactional
+    public void changeWeight(WeightChangeDto weightChangeDto) {
+        String memberId = weightChangeDto.getMemberId();
+        int weight = weightChangeDto.getWeight();
+
+        //멤버 조회
+        Member member = memberRepository.findById(memberId).orElseThrow(null);
+        //멤버의 현재 체중 변경
+        member.setWeight(weight);
+
+        memberRepository.save(member);
+    }
 
 
 

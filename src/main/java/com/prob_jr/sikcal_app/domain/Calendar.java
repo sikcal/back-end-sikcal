@@ -17,7 +17,6 @@ public class Calendar {
     @Column(name = "calendar_id")
     private Long id;
 
-    @DateTimeFormat(pattern = "yyyy-mm-dd")
     private LocalDate calendarDate;
 
     @ManyToOne(fetch = LAZY)
@@ -28,5 +27,37 @@ public class Calendar {
     private CalendarStatus status;
 
     private String image;
+
+    public void setMember(Member member) {
+        this.member = member;
+    }
+
+    public void setCalendarDate(LocalDate calendarDate) {
+        this.calendarDate = calendarDate;
+    }
+
+    public void setStatus(CalendarStatus status) {
+        this.status = status;
+    }
+
+    //====생성 메서드====//
+    public static Calendar createCalendar(Member member) {
+        Calendar calendar = new Calendar();
+        calendar.setMember(member);
+        calendar.setCalendarDate(LocalDate.now().minusDays(1));
+
+        return calendar;
+    }
+
+    //====목표 섭취 칼로리 달성여부 확인 로직====//
+    public static Calendar checkTarget(Calendar calendar, CalendarStatus status) {
+        if (status.equals(CalendarStatus.SUCCESS)) {
+            calendar.setStatus(CalendarStatus.SUCCESS);
+        }
+        else {
+            calendar.setStatus(CalendarStatus.FAIL);
+        }
+        return calendar;
+    }
 
 }

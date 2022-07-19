@@ -7,6 +7,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.prob_jr.sikcal_app.domain.Role;
+import com.prob_jr.sikcal_app.domain.controller.dto.ChangeWeightRequest;
 import com.prob_jr.sikcal_app.domain.exception.Constants;
 import com.prob_jr.sikcal_app.domain.exception.SickalException;
 import com.prob_jr.sikcal_app.domain.service.dto.InfoDto;
@@ -194,6 +195,13 @@ public class MemberController {
         return ResponseEntity.ok().build();
         //throw new SickalException(Constants.ExceptionClass.Login,HttpStatus.OK,"로그인 성공");
     }*/
+
+    @PutMapping("/my-weight")
+    public ResponseEntity<Void> changeWeight(@RequestBody ChangeWeightRequest changeWeightRequest) {
+        memberService.changeWeight(changeWeightRequest.toServiceDto());
+
+        return ResponseEntity.ok().build();
+    }
 
 }
 //Dto

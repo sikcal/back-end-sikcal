@@ -23,15 +23,15 @@ public class FavoritesRepository {
     /**
      * 내 즐겨찾기 리스트
      */
-    public List<RecipeDto> MyFavorites(String id){
+    public List<RecipeDto> MyFavorites(String id) {
         List<RecipeDto> results =
-                query.select(Projections.constructor(RecipeDto.class,favorites.member.id, record.kcalInfo, record.requiredFood,post.recipe))
+                query.select(Projections.constructor(RecipeDto.class, favorites.member.id,record.totalCarbohydrate,record.totalFat,record.totalFat, record.totalKcal, record.requiredFood, post.recipe))
                         .from(favorites, post, record)
-                        .where(favorites.member.id.eq(id),favorites.post.id.eq(post.id),post.record.id.eq(record.id))
+                        .where(favorites.member.id.eq(id), favorites.post.id.eq(post.id), post.record.id.eq(record.id))
                         .fetch();
 
         return results;
+
+
     }
-
-
 }

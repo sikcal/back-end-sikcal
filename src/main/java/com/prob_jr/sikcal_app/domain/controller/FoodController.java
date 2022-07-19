@@ -1,6 +1,7 @@
 package com.prob_jr.sikcal_app.domain.controller;
 
 import com.prob_jr.sikcal_app.domain.Food;
+import com.prob_jr.sikcal_app.domain.controller.dto.DeleteFoodRequest;
 import com.prob_jr.sikcal_app.domain.controller.dto.FoodInfoResponse;
 import com.prob_jr.sikcal_app.domain.controller.dto.RecordFoodSearchRequest;
 import com.prob_jr.sikcal_app.domain.controller.dto.SaveFoodRequest;
@@ -28,9 +29,10 @@ public class FoodController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @DeleteMapping("/record/food/{foodId}")
-    public ResponseEntity<Void> deleteFood(@PathVariable(value = "foodId") Long foodId) {
-        recordFoodService.deleteFood(foodId);
+    @DeleteMapping("/record/food")
+    public ResponseEntity<Void> deleteFood(@RequestBody DeleteFoodRequest deleteFoodRequest) {
+
+        recordFoodService.deleteFood(deleteFoodRequest.toServiceDto());
 
         return ResponseEntity.ok().build();
     }

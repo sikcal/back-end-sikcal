@@ -4,6 +4,7 @@ package com.prob_jr.sikcal_app.domain.service;
 import com.prob_jr.sikcal_app.domain.Role;
 import com.prob_jr.sikcal_app.domain.service.dto.InfoDto;
 import com.prob_jr.sikcal_app.domain.service.dto.MemberDto;
+import com.prob_jr.sikcal_app.domain.service.dto.WeightChangeDto;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 
@@ -17,6 +18,6 @@ public interface MemberService {
     MemberDto getMember(String userid);
     boolean checkUsernameDuplication(String id);
     InfoDto searchInfoById(String id);
-
+    void changeWeight(WeightChangeDto weightChangeDto);
 
 }

@@ -18,7 +18,7 @@ public class CalendarController {
     @Scheduled(cron = "0 0 0 * * *")
     @GetMapping("/calendar-goal")
     public ResponseEntity<Void> checkTargetWeight(@RequestBody CheckTargetRequest checkTargetRequest) {
-        calendarService.checkTargetKcal(checkTargetRequest.toServiceDto())
+        calendarService.checkTargetKcal(checkTargetRequest.toServiceDto());
 
         return ResponseEntity.ok().build();
     }

@@ -68,6 +68,12 @@ public class Record {
         record.setMember(member);
         record.setRecordDate(LocalDate.now()); //식단생성과 함께 생성 당시의 date를 set
 
+        //식단의 총 탄단지 및 총 칼로리를 초기값인 0으로 설정
+        record.setTotalCarbohydrate(0);
+        record.setTotalProtein(0);
+        record.setTotalFat(0);
+        record.setTotalKcal(0);
+
         return record;
     }
 

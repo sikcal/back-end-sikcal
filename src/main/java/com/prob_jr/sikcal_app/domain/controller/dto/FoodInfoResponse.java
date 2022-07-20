@@ -10,7 +10,6 @@ import lombok.Getter;
 public class FoodInfoResponse {
 
     private String foodName;
-
     private int carbohydrate;
     private int protein;
     private int fat;

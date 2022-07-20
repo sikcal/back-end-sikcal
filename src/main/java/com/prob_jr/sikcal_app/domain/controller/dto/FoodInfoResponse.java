@@ -9,6 +9,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class FoodInfoResponse {
 
+    private Long foodId;
     private String foodName;
     private int carbohydrate;
     private int protein;
@@ -16,7 +17,8 @@ public class FoodInfoResponse {
     private int totalKcal;
 
     public static FoodInfoResponse from(Food food) {
-        return new FoodInfoResponse(food.getFoodName(),
+        return new FoodInfoResponse(food.getId(),
+                food.getFoodName(),
                 food.getCarbohydrate(),
                 food.getProtein(),
                 food.getFat(),

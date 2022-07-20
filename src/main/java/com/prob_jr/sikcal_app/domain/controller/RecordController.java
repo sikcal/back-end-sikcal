@@ -2,6 +2,7 @@ package com.prob_jr.sikcal_app.domain.controller;
 
 import com.prob_jr.sikcal_app.domain.Favorites;
 import com.prob_jr.sikcal_app.domain.config.TokenIdUtil;
+import com.prob_jr.sikcal_app.domain.controller.dto.CreateRecordInfo;
 import com.prob_jr.sikcal_app.domain.controller.dto.CreateRecordRequest;
 import com.prob_jr.sikcal_app.domain.service.FavoritesService;
 import com.prob_jr.sikcal_app.domain.service.RecordFoodService;
@@ -27,10 +28,10 @@ public class RecordController {
     private final FavoritesService favoritesService;
 
     @PostMapping("/record")
-    public ResponseEntity<Void> record(@RequestBody CreateRecordRequest createRequest) {
-        recordFoodService.record(createRequest.toServiceDto());
+    public ResponseEntity<CreateRecordInfo> record(@RequestBody CreateRecordRequest createRequest) {
+        CreateRecordInfo createRecordInfo = recordFoodService.record(createRequest.toServiceDto());
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(createRecordInfo);
     }
 
     @DeleteMapping("/record/{recordId}")

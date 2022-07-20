@@ -1,14 +1,10 @@
 package com.prob_jr.sikcal_app.domain.controller;
 
 import com.prob_jr.sikcal_app.domain.Food;
-import com.prob_jr.sikcal_app.domain.controller.dto.DeleteFoodRequest;
-import com.prob_jr.sikcal_app.domain.controller.dto.FoodInfoResponse;
-import com.prob_jr.sikcal_app.domain.controller.dto.RecordFoodSearchRequest;
-import com.prob_jr.sikcal_app.domain.controller.dto.SaveFoodRequest;
+import com.prob_jr.sikcal_app.domain.controller.dto.*;
 import com.prob_jr.sikcal_app.domain.service.RecordFoodService;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,10 +19,10 @@ public class FoodController {
     private final RecordFoodService recordFoodService;
 
     @PostMapping("/record/food")
-    public ResponseEntity<Void> saveFood(@RequestBody SaveFoodRequest saveFoodRequest) {
-        recordFoodService.addFood(saveFoodRequest.toServiceDto());
+    public ResponseEntity<SaveFoodInfo> saveFood(@RequestBody SaveFoodRequest saveFoodRequest) {
+        SaveFoodInfo saveFoodInfo = recordFoodService.addFood(saveFoodRequest.toServiceDto());
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.ok(saveFoodInfo);
     }
 
     @DeleteMapping("/record/food")

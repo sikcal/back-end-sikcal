@@ -4,6 +4,8 @@ import com.prob_jr.sikcal_app.domain.Food;
 import com.prob_jr.sikcal_app.domain.Member;
 import com.prob_jr.sikcal_app.domain.Record;
 import com.prob_jr.sikcal_app.domain.RecordFood;
+import com.prob_jr.sikcal_app.domain.controller.dto.CreateRecordInfo;
+import com.prob_jr.sikcal_app.domain.controller.dto.SaveFoodInfo;
 import com.prob_jr.sikcal_app.domain.repository.*;
 import com.prob_jr.sikcal_app.domain.service.dto.FoodDeleteDto;
 import com.prob_jr.sikcal_app.domain.service.dto.FoodRecordDto;
@@ -31,7 +33,7 @@ public class RecordFoodService {
      * 식단 생성
      */
     @Transactional
-    public Long record(FoodRecordDto foodRecordDto) {
+    public CreateRecordInfo record(FoodRecordDto foodRecordDto) {
         String memberId = foodRecordDto.getMemberId();
 
         //엔티티 조회
@@ -42,7 +44,7 @@ public class RecordFoodService {
 
         recordRepository.save(record);
 
-        return record.getId();
+        return new CreateRecordInfo(record.getId(), record.getRecordDate());
     }
 
 
@@ -70,7 +72,7 @@ public class RecordFoodService {
      * 음식 추가
      */
     @Transactional
-    public Long addFood(FoodSaveDto foodSaveDto) {
+    public SaveFoodInfo addFood(FoodSaveDto foodSaveDto) {
         Long recordId = foodSaveDto.getRecordId();
         Long foodId = foodSaveDto.getFoodId();
 
@@ -83,7 +85,7 @@ public class RecordFoodService {
 
         recordFoodRepository.save(recordFood);
 
-        return recordFood.getId();
+        return new SaveFoodInfo(recordFood.getId());
     }
 
     /**

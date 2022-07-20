@@ -39,9 +39,6 @@ public class RecordController {
 
         return ResponseEntity.ok().build();
     }
-    /*@PostMapping("/")
-    public ResponseEntity<?>*/
-
 
     public ResponseEntity<List<RecipeDto>> getFavorites(HttpServletRequest request){
         String authorizationHeader = request.getHeader(AUTHORIZATION); //REFRESHTOKEN잉 있다면

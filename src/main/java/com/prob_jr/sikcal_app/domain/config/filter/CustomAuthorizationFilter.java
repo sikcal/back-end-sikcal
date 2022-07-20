@@ -73,7 +73,6 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                     filterChain.doFilter(request,response); //아직 인증이 진행중임
                 }catch (Exception exception){ //토큰이 valid 만료되었거나 무슨일이 생길때
                     LOGGER.error("토큰 varify 과정중 error발생:{} ",exception.getMessage() );
-                    response.setHeader("token error",exception.getMessage());
                    // response.sendError(FORBIDDEN.value()); //403 forbidden 코드
                     response.setStatus(FORBIDDEN.value());
                     //에러시 json형태로 보내기

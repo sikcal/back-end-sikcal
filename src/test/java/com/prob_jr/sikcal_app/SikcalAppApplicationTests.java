@@ -24,16 +24,16 @@ class SikcalAppApplicationTests {
 
 //	//@Autowired
 //	//EntityManager em;
-//	@Autowired
-//	JPAQueryFactory query;
-//	@Test
-//	void 테스트() {
-//		//JPAQueryFactory query = new JPAQueryFactory(em);
-//		List<Member> results = query
-//				.selectFrom(member)
-//				.fetch();
-//		Assertions.assertThat(results.size()==1);
-//	}
+	@Autowired
+	JPAQueryFactory query;
+	@Test
+	void 테스트() {
+		//JPAQueryFactory query = new JPAQueryFactory(em);
+		List<Member> results = query
+				.selectFrom(member)
+				.fetch();
+		System.out.println(results);
+	}
 //	@Test
 //	void 세타조인테스트(){
 //		//JPAQueryFactory query = new JPAQueryFactory(em);

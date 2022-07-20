@@ -40,22 +40,6 @@ public class RecordController {
         return ResponseEntity.ok().build();
     }
 
-    public ResponseEntity<List<RecipeDto>> getFavorites(HttpServletRequest request){
-        String authorizationHeader = request.getHeader(AUTHORIZATION); //REFRESHTOKEN잉 있다면
-        String accessToken = authorizationHeader.substring("Bearer ".length()); //bearer부분 짜르고 token검증
-        String userId = TokenIdUtil.Decoder(accessToken);
-        return ResponseEntity.ok().body(favoritesService.MyFavorites(userId));
-    }
-
-
-
-
-
-
-
-
-
-
 
 
 

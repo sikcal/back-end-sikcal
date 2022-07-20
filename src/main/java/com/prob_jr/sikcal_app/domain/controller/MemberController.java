@@ -53,22 +53,14 @@ public class MemberController {
 
     @GetMapping ("/user/info")
     public ResponseEntity<InfoDto> getMainInfo(HttpServletRequest request ){
-        String authorizationHeader = request.getHeader(AUTHORIZATION); //REFRESHTOKEN잉 있다면
-        String access_token = authorizationHeader.substring("Bearer ".length()); //bearer부분 짜르고 token검증
-        Algorithm algorithm = Algorithm.HMAC256("secret".getBytes()); //전에 알고리즘으로 서명했기에 verify하기 위해서 알고리즘으로 확인 필요
-        JWTVerifier verifier = JWT.require(algorithm).build(); //검증기 제작
-        DecodedJWT decodedJWT = verifier.verify(access_token); //토큰 검증하기
-        String userid = decodedJWT.getSubject(); //TOKEN에 SUBJECT에 MEMBERID저장해놨었음 !! JWT.IO확인!
-        LOGGER.info("token으로받은 아이디}",userid);
-        InfoDto infoDto = memberService.searchInfoById(userid);
+        String member_id = TokenIdUtil.Decoder(request);
+        InfoDto infoDto = memberService.searchInfoById(member_id);
         return ResponseEntity.ok().body(infoDto);
     }
     @GetMapping("/user")
     public ResponseEntity<MemberDto> getMember(HttpServletRequest request){
-        String authorizationHeader = request.getHeader(AUTHORIZATION);
-        String access_token = authorizationHeader.substring("Bearer ".length()); //bearer부분 짜르고 token검증
-        String user_id= TokenIdUtil.Decoder(access_token);
-        return ResponseEntity.ok().body(memberService.getMember(user_id));
+        String member_id = TokenIdUtil.Decoder(request);
+        return ResponseEntity.ok().body(memberService.getMember(member_id));
     }
 
 

@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RecipeDto {
     String memberid;
+    String menu;
     int carbon;
     int protein;
     int fat;
@@ -19,8 +20,9 @@ public class RecipeDto {
     //QueryDsl을 이용해서 dto와 같은형식으로 projection해서 받아오고 싶음
 
 
-    public RecipeDto(String memberid, int carbon, int protein, int fat, int totalkcal, String requiredfood, String recipe) {
+    public RecipeDto(String memberid, String menu, int carbon, int protein, int fat, int totalkcal, String requiredfood, String recipe) {
         this.memberid = memberid;
+        this.menu = menu;
         this.carbon = carbon;
         this.protein = protein;
         this.fat = fat;

@@ -9,7 +9,6 @@ import com.prob_jr.sikcal_app.domain.repository.CalendarRepository;
 import com.prob_jr.sikcal_app.domain.repository.MemberRepository;
 import com.prob_jr.sikcal_app.domain.repository.RecordRepository;
 import com.prob_jr.sikcal_app.domain.service.dto.InfoDto;
-import com.prob_jr.sikcal_app.domain.service.dto.TargetKcalCheckDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,8 +31,7 @@ public class CalendarService {
      * 날짜별 목표 칼로리 달성 표시
      */
     @Transactional
-    public CalendarStateInfo checkTargetKcal(TargetKcalCheckDto targetKcalCheckDto) {
-        String memberId = targetKcalCheckDto.getMemberId();
+    public CalendarStateInfo checkTargetKcal(String memberId) {
         LocalDate yesterday = LocalDate.now().minusDays(1);
 
         //멤버 조회

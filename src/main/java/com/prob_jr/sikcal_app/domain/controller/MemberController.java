@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.prob_jr.sikcal_app.domain.Role;
 import com.prob_jr.sikcal_app.domain.config.TokenIdUtil;
 import com.prob_jr.sikcal_app.domain.controller.dto.ChangeWeightRequest;
+import com.prob_jr.sikcal_app.domain.controller.dto.MemberWeightInfo;
 import com.prob_jr.sikcal_app.domain.exception.Constants;
 import com.prob_jr.sikcal_app.domain.exception.SikcalException;
 import com.prob_jr.sikcal_app.domain.service.dto.InfoDto;
@@ -197,11 +198,14 @@ public class MemberController {
         //throw new SickalException(Constants.ExceptionClass.Login,HttpStatus.OK,"로그인 성공");
     }*/
 
-    @PutMapping("/my-weight")
-    public ResponseEntity<Void> changeWeight(@RequestBody ChangeWeightRequest changeWeightRequest) {
-        memberService.changeWeight(changeWeightRequest.toServiceDto());
+    /**
+     * TODO : 현재 체중을 동일한 값으로 넘기면 예외처리
+     */
+    @PutMapping("/user/my-weight")
+    public ResponseEntity<MemberWeightInfo> changeWeight(@RequestBody ChangeWeightRequest changeWeightRequest) {
+        MemberWeightInfo memberWeightInfo = memberService.changeWeight(changeWeightRequest.toServiceDto());
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(memberWeightInfo);
     }
 
 }

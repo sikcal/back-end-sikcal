@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class FoodRecordDto {
-    private String memberId;
+public class FoodShowCond {
+
+    private Long recordId;
 }

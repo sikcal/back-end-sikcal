@@ -6,6 +6,7 @@ import com.prob_jr.sikcal_app.domain.MemberActivity;
 import com.prob_jr.sikcal_app.domain.MemberSex;
 import com.prob_jr.sikcal_app.domain.Role;
 import com.prob_jr.sikcal_app.domain.controller.MemberController;
+import com.prob_jr.sikcal_app.domain.controller.dto.MemberWeightInfo;
 import com.prob_jr.sikcal_app.domain.repository.MemberRepository;
 import com.prob_jr.sikcal_app.domain.repository.RoleRepository;
 import com.prob_jr.sikcal_app.domain.service.dto.InfoDto;
@@ -201,7 +202,7 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
      * 체중 변경
      */
     @Transactional
-    public void changeWeight(WeightChangeDto weightChangeDto) {
+    public MemberWeightInfo changeWeight(WeightChangeDto weightChangeDto) {
         String memberId = weightChangeDto.getMemberId();
         int weight = weightChangeDto.getWeight();
 
@@ -211,6 +212,8 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
         member.setWeight(weight);
 
         memberRepository.save(member);
+
+        return new MemberWeightInfo(member.getWeight());
     }
 
 

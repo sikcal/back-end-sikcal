@@ -7,15 +7,11 @@ import com.prob_jr.sikcal_app.domain.RecordFood;
 import com.prob_jr.sikcal_app.domain.controller.dto.CreateRecordInfo;
 import com.prob_jr.sikcal_app.domain.controller.dto.SaveFoodInfo;
 import com.prob_jr.sikcal_app.domain.repository.*;
-import com.prob_jr.sikcal_app.domain.service.dto.FoodDeleteDto;
-import com.prob_jr.sikcal_app.domain.service.dto.FoodSaveDto;
-import com.prob_jr.sikcal_app.domain.service.dto.FoodShowCond;
-import com.prob_jr.sikcal_app.domain.service.dto.RecordFoodSearchCond;
+import com.prob_jr.sikcal_app.domain.service.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -120,12 +116,24 @@ public class RecordFoodService {
     /**
      * 식단을 통해 식단에 포함된 음식 정보를 반환
      */
-    public List<Food> showFoods(FoodShowCond foodShowCond) {
+//    public List<Food> showFoods(FoodShowCond foodShowCond) {
+//
+//        return recordFoodRepository.findFoods(foodShowCond.getRecordId())
+//                .stream().map(RecordFood::getFood)
+//                .collect(Collectors.toList());
+//    }
 
-        System.out.println("recordId = " + foodShowCond.getRecordId());
+    public List<ShowFoodInfo> showFoods(FoodShowCond foodShowCond) {
 
         return recordFoodRepository.findFoods(foodShowCond.getRecordId())
-                .stream().map(RecordFood::getFood)
+                .stream()
+                .map(recordFood -> new ShowFoodInfo(recordFood.getId(),
+                        recordFood.getFood().getId(),
+                        recordFood.getFood().getFoodName(),
+                        recordFood.getFood().getCarbohydrate(),
+                        recordFood.getFood().getProtein(),
+                        recordFood.getFood().getFat(),
+                        recordFood.getFood().getTotalKcal()))
                 .collect(Collectors.toList());
     }
 

@@ -8,14 +8,17 @@ import com.prob_jr.sikcal_app.domain.controller.dto.CreateRecordInfo;
 import com.prob_jr.sikcal_app.domain.controller.dto.SaveFoodInfo;
 import com.prob_jr.sikcal_app.domain.repository.*;
 import com.prob_jr.sikcal_app.domain.service.dto.FoodDeleteDto;
-import com.prob_jr.sikcal_app.domain.service.dto.FoodRecordDto;
 import com.prob_jr.sikcal_app.domain.service.dto.FoodSaveDto;
+import com.prob_jr.sikcal_app.domain.service.dto.FoodShowCond;
 import com.prob_jr.sikcal_app.domain.service.dto.RecordFoodSearchCond;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLOutput;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.prob_jr.sikcal_app.domain.RecordFood.minusNutrition;
 
@@ -33,9 +36,7 @@ public class RecordFoodService {
      * 식단 생성
      */
     @Transactional
-    public CreateRecordInfo record(FoodRecordDto foodRecordDto) {
-        String memberId = foodRecordDto.getMemberId();
-
+    public CreateRecordInfo record(String memberId) {
         //엔티티 조회
         Member member = memberRepository.findById(memberId).orElseThrow(null);
 
@@ -115,5 +116,18 @@ public class RecordFoodService {
 
         return foodRepository.findAllByFoodNameContains(recordFoodSearchCond.getFoodName());
     }
-    
+
+    /**
+     * 식단을 통해 식단에 포함된 음식 정보를 반환
+     */
+    public List<Food> showFoods(FoodShowCond foodShowCond) {
+
+        System.out.println("recordId = " + foodShowCond.getRecordId());
+
+        return recordFoodRepository.findFoods(foodShowCond.getRecordId())
+                .stream().map(RecordFood::getFood)
+                .collect(Collectors.toList());
+    }
+
+
 }

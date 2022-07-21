@@ -1,6 +1,7 @@
 package com.prob_jr.sikcal_app.domain.controller;
 
 import com.prob_jr.sikcal_app.domain.Food;
+import com.prob_jr.sikcal_app.domain.RecordFood;
 import com.prob_jr.sikcal_app.domain.controller.dto.*;
 import com.prob_jr.sikcal_app.domain.service.RecordFoodService;
 
@@ -39,6 +40,13 @@ public class FoodController {
         List<Food> search = recordFoodService.search(searchRequest.toServiceDto());
 
         return ResponseEntity.ok(search.stream().map(FoodInfoResponse::from).collect(Collectors.toList()));
+    }
+
+    @GetMapping("/record/list")
+    public ResponseEntity<List<FoodListInfoResponse>> showFoods(@ModelAttribute ShowFoodsRequest showFoodsRequest) {
+        List<Food> foodList = recordFoodService.showFoods(showFoodsRequest.toServiceDto());
+
+        return ResponseEntity.ok(foodList.stream().map(FoodListInfoResponse::from).collect(Collectors.toList()));
     }
 
 }

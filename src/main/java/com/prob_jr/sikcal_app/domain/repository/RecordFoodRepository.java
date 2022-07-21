@@ -11,7 +11,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RecordFoodRepository {
 
-    private EntityManager em;
+    private final EntityManager em;
 
     public void save(RecordFood recordFood) {
         em.persist(recordFood);

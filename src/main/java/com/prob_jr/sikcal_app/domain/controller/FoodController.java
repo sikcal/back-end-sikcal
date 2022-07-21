@@ -5,6 +5,7 @@ import com.prob_jr.sikcal_app.domain.RecordFood;
 import com.prob_jr.sikcal_app.domain.controller.dto.*;
 import com.prob_jr.sikcal_app.domain.service.RecordFoodService;
 
+import com.prob_jr.sikcal_app.domain.service.dto.ShowFoodInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,10 +44,11 @@ public class FoodController {
     }
 
     @GetMapping("/record/list")
-    public ResponseEntity<List<FoodListInfoResponse>> showFoods(@ModelAttribute ShowFoodsRequest showFoodsRequest) {
-        List<Food> foodList = recordFoodService.showFoods(showFoodsRequest.toServiceDto());
+    public ResponseEntity<List<ShowFoodInfo>> showFoods(@ModelAttribute ShowFoodsRequest showFoodsRequest) {
 
-        return ResponseEntity.ok(foodList.stream().map(FoodListInfoResponse::from).collect(Collectors.toList()));
+        List<ShowFoodInfo> foodList = recordFoodService.showFoods(showFoodsRequest.toServiceDto());
+
+        return ResponseEntity.ok(foodList);
     }
 
 }

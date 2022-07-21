@@ -10,7 +10,7 @@ import com.prob_jr.sikcal_app.domain.Role;
 import com.prob_jr.sikcal_app.domain.config.TokenIdUtil;
 import com.prob_jr.sikcal_app.domain.controller.dto.ChangeWeightRequest;
 import com.prob_jr.sikcal_app.domain.exception.Constants;
-import com.prob_jr.sikcal_app.domain.exception.SickalException;
+import com.prob_jr.sikcal_app.domain.exception.SikcalException;
 import com.prob_jr.sikcal_app.domain.service.dto.InfoDto;
 import com.prob_jr.sikcal_app.domain.service.dto.MemberDto;
 import com.prob_jr.sikcal_app.domain.service.MemberService;
@@ -59,8 +59,8 @@ public class MemberController {
     }
     @GetMapping("/user")
     public ResponseEntity<MemberDto> getMember(HttpServletRequest request){
-        String member_id = TokenIdUtil.Decoder(request);
-        return ResponseEntity.ok().body(memberService.getMember(member_id));
+        String memberId = TokenIdUtil.Decoder(request);
+        return ResponseEntity.ok().body(memberService.getMember(memberId));
     }
 
 
@@ -72,7 +72,7 @@ public class MemberController {
     //아님 에러 메시지만 넘길것인가
     //bindingresult를 써서 valid에 실패한 부분((MemberDto형식에 맞지않은)의 메세지를 보냄
     @PostMapping("/join")
-    public  ResponseEntity<MemberDto>  joinProc(@Valid @RequestBody MemberDto memberDto, BindingResult bindingResult) throws SickalException {
+    public  ResponseEntity<MemberDto>  joinProc(@Valid @RequestBody MemberDto memberDto, BindingResult bindingResult) throws SikcalException {
         if (bindingResult.hasErrors()) {
             LOGGER.warn("형식에 맞지않은 입력입니다.:{}",bindingResult);
             /* 회원가입 실패시 입력 데이터 값을 유지 */
@@ -83,10 +83,10 @@ public class MemberController {
             }*/
             //error throw
             //throw  new SickalException(Constants.ExceptionClass.MEMBER,HttpStatus.BAD_REQUEST, "");
-            throw new SickalException(Constants.ExceptionClass.MEMBER,HttpStatus.BAD_REQUEST,"회원가입 형식이 잘못됌");
+            throw new SikcalException(Constants.ExceptionClass.MEMBER,HttpStatus.BAD_REQUEST,"회원가입 형식이 잘못됌");
         }
         if (memberService.checkUsernameDuplication(memberDto.getId())){
-            throw new SickalException(Constants.ExceptionClass.MEMBER,HttpStatus.NOT_ACCEPTABLE, "중복된 id가 있습니다.");
+            throw new SikcalException(Constants.ExceptionClass.MEMBER,HttpStatus.NOT_ACCEPTABLE, "중복된 id가 있습니다.");
         }
         try {
            MemberDto memberDto1= memberService.join(memberDto);
@@ -95,19 +95,19 @@ public class MemberController {
             return ResponseEntity.created(uri).body(memberDto1); //code 201 무언가 만들어졌음
         }
         catch (Exception e){
-            throw new SickalException(Constants.ExceptionClass.MEMBER,HttpStatus.BAD_REQUEST, "뭔가 잘못된게 있음"+e.getMessage());
+            throw new SikcalException(Constants.ExceptionClass.MEMBER,HttpStatus.BAD_REQUEST, "뭔가 잘못된게 있음"+e.getMessage());
         }
         //throw new SickalException(Constants.ExceptionClass.MEMBER,HttpStatus.OK, "회원가입 성공 두 단계 다 통과함 ㅋ");
     }
     // 로그아웃시 session에서 제거해줘야함
     @GetMapping("/user/logout")
-    public void logout(SessionStatus status) throws SickalException{
+    public void logout(SessionStatus status) throws SikcalException{
         //로그인 되있을때만 정상 로그아웃됌
         if(!status.isComplete()){
             status.setComplete();
         }
         else{
-            throw new SickalException(Constants.ExceptionClass.Login,HttpStatus.BAD_REQUEST,"로그인부터 하고 로그아웃 누르셈 ㅋ");
+            throw new SikcalException(Constants.ExceptionClass.Login,HttpStatus.BAD_REQUEST,"로그인부터 하고 로그아웃 누르셈 ㅋ");
         }
     }
     /**
@@ -139,8 +139,8 @@ public class MemberController {
                 Algorithm algorithm = Algorithm.HMAC256("secret".getBytes()); //전에 알고리즘으로 서명했기에 verify하기 위해서 알고리즘으로 확인 필요
                 JWTVerifier verifier = JWT.require(algorithm).build(); //검증기 제작
                 DecodedJWT decodedJWT = verifier.verify(refresh_token); //토큰 검증하기
-                String userid = decodedJWT.getSubject(); //TOKEN에 SUBJECT에 MEMBERID저장해놨었음 !! JWT.IO확인!
-                MemberDto member =memberService.getMember(userid); //token으로 이름받아와서 해당이름인 멤버 찾기
+                String memberId = decodedJWT.getSubject(); //TOKEN에 SUBJECT에 MEMBERID저장해놨었음 !! JWT.IO확인!
+                MemberDto member =memberService.getMember(memberId); //token으로 이름받아와서 해당이름인 멤버 찾기
                 String access_token = JWT.create()
                         .withSubject(member.getId()) //회원 고유한걸로 해야함 key
                         .withExpiresAt(new Date((System.currentTimeMillis() +10*60*1000))) //현재시간에서 일단 10분동안으로
@@ -155,7 +155,7 @@ public class MemberController {
 
             }catch (Exception exception){ //토큰이 valid 만료되었거나 무슨일이 생길때
                 LOGGER.error("토큰 varify 과정중 error발생:{} ",exception.getMessage() );
-                response.setHeader("token error",exception.getMessage());
+                //response.setHeader("token error",exception.getMessage());
                 // response.sendError(FORBIDDEN.value()); //403 forbidden 코드
                 response.setStatus(FORBIDDEN.value());
                 //에러시 json형태로 보내기
@@ -172,8 +172,8 @@ public class MemberController {
 
     // custom exception만든거 test해보깅
     @PostMapping("/user/exception")
-    public void exceptionTest() throws SickalException{
-        throw new SickalException(Constants.ExceptionClass.MEMBER,HttpStatus.BAD_REQUEST, "승우가 만든 ERROr");
+    public void exceptionTest() throws SikcalException{
+        throw new SikcalException(Constants.ExceptionClass.MEMBER,HttpStatus.BAD_REQUEST, "승우가 만든 ERROr");
     }
     /*            login mapping -> springsecurity가 httpintersect ... 아무튼 인터셉 해감 ! 구현할 필요 x
 

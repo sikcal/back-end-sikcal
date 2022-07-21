@@ -3,7 +3,7 @@ package com.prob_jr.sikcal_app.domain.exception;
 import org.springframework.http.HttpStatus;
 
 //custom exception
-public class SickalException extends Exception {
+public class SikcalException extends Exception {
 
     //직렬화를 위한 일련번호
     private static final long serialVersionUID = 4663380430591151694L;
@@ -11,7 +11,7 @@ public class SickalException extends Exception {
     private Constants.ExceptionClass exceptionClass;
     private HttpStatus httpStatus;
 
-    public SickalException(Constants.ExceptionClass exceptionClass, HttpStatus httpStatus,
+    public SikcalException(Constants.ExceptionClass exceptionClass, HttpStatus httpStatus,
                            String message) {
         super(exceptionClass.toString() + message);
         this.exceptionClass = exceptionClass;

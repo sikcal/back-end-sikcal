@@ -52,7 +52,7 @@ public class SpringSecurity extends
         // FILTER PATH재정의 해주기 EXTENS부분 들어가면 DEFAULT로 /LOGIN되어있음 우리 app에 맞게 customize해주기
 
         CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
-        customAuthenticationFilter.setUsernameParameter("userid");
+        customAuthenticationFilter.setUsernameParameter("memberId");
         customAuthenticationFilter.setFilterProcessesUrl("/api/login");
         http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(STATELESS);

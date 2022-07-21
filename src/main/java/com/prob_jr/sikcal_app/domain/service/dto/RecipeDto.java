@@ -17,10 +17,11 @@ public class RecipeDto {
     int totalkcal;
     String requiredfood;
     String recipe;
+    String picUri;
     //QueryDsl을 이용해서 dto와 같은형식으로 projection해서 받아오고 싶음
 
 
-    public RecipeDto(String memberid, String menu, int carbon, int protein, int fat, int totalkcal, String requiredfood, String recipe) {
+    public RecipeDto(String memberid, String menu, int carbon, int protein, int fat, int totalkcal, String requiredfood, String recipe,String picUri) {
         this.memberid = memberid;
         this.menu = menu;
         this.carbon = carbon;
@@ -29,5 +30,6 @@ public class RecipeDto {
         this.totalkcal = totalkcal;
         this.requiredfood = requiredfood;
         this.recipe = recipe;
+        this.picUri = picUri;
     }
 }

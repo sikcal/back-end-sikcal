@@ -18,9 +18,9 @@ import java.util.Map;
 //컨트롤러단에서 나는 에러처리 전부 여기서 해결한다는 뜻
 //json형식으로 return{errortype:,code:,message:}
 @RestControllerAdvice
-public class SickalExceptionHandler {
+public class SikcalExceptionHandler {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(SickalExceptionHandler.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(SikcalExceptionHandler.class);
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public String processValidationError(MethodArgumentNotValidException exception) {
@@ -55,8 +55,8 @@ public class SickalExceptionHandler {
         return new ResponseEntity<>(map, responseHeaders, httpStatus);
     }
 //enum타입으로 만들어놓은것들 member, login 등등
-    @ExceptionHandler(value = SickalException.class)
-    public ResponseEntity<Map<String, String>> ExceptionHandler(SickalException e) {
+    @ExceptionHandler(value = SikcalException.class)
+    public ResponseEntity<Map<String, String>> ExceptionHandler(SikcalException e) {
         HttpHeaders responseHeaders = new HttpHeaders();
 
         Map<String, String> map = new HashMap<>();

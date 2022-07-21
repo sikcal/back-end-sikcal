@@ -23,4 +23,6 @@ public class FavoritesService {
     public List<RecipeDto> MyFavorites(String id){
         return repository.MyFavorites(id);
     }
+
+
 }

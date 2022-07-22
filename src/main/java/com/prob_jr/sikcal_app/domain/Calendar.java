@@ -17,6 +17,7 @@ public class Calendar {
     @Column(name = "calendar_id")
     private Long id;
 
+
     private LocalDate calendarDate;
 
     @ManyToOne(fetch = LAZY)
@@ -41,10 +42,10 @@ public class Calendar {
     }
 
     //====생성 메서드====//
-    public static Calendar createCalendar(Member member) {
+    public static Calendar createCalendar(Member member, LocalDate createdDate) {
         Calendar calendar = new Calendar();
         calendar.setMember(member);
-        calendar.setCalendarDate(LocalDate.now().minusDays(1));
+        calendar.setCalendarDate(createdDate);
 
         return calendar;
     }

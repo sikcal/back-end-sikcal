@@ -12,7 +12,6 @@ import static javax.persistence.FetchType.*;
 
 @Entity
 @Getter
-@Builder
 @RequiredArgsConstructor
 public class Post {
 

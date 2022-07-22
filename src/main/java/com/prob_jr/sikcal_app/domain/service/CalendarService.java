@@ -114,7 +114,7 @@ public class CalendarService {
             }
         }
 
-        return calendarRepository.findAllByCalendarDateContains(date);
+        return calendarRepository.findAllByMemberAndCalendarDateBetween(member, date.withDayOfMonth(1), date);
     }
 
 }

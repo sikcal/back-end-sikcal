@@ -1,6 +1,7 @@
 package com.prob_jr.sikcal_app.domain.repository;
 
 import com.prob_jr.sikcal_app.domain.RecordFood;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -12,6 +13,7 @@ import java.util.List;
 public class RecordFoodRepository {
 
     private final EntityManager em;
+    private final JPAQueryFactory query;
 
     public void save(RecordFood recordFood) {
         em.persist(recordFood);

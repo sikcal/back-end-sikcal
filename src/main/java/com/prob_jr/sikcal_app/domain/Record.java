@@ -34,7 +34,6 @@ public class Record {
     private int totalFat;
     private int totalKcal;
 
-    private String requiredFood; //하나의 식단을 구성하는 음식을 concatenate하여 저장할 컬럼 || 토마토: ()g 계란 ()g 닭가슴살 ()g 청양고추 ()g
 
     public void setTotalCarbohydrate(int totalCarbohydrate) {
         this.totalCarbohydrate = totalCarbohydrate;
@@ -59,6 +58,8 @@ public class Record {
     public void setMember(Member member) {
         this.member = member;
     }
+
+
 
     //====생성 메서드====//
     public static Record createRecord(Member member) {

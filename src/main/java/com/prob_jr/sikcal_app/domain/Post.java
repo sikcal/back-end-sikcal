@@ -6,6 +6,7 @@ import org.springframework.security.core.parameters.P;
 import javax.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static javax.persistence.FetchType.*;
 
@@ -50,8 +51,16 @@ public class Post {
     public void setPicUri(String picUri) {
         this.picUri = picUri;
     }
+    public void setRequiredFood(String requiredFood) {
+        this.requiredFood = requiredFood;
+    }
+
     // 파이어베이스 사진 경로 담는 문자열
     private String picUri;
+
+    private String requiredFood; //하나의 식단을 구성하는 음식을 concatenate하여 저장할 컬럼 || 토마토: ()g 계란 ()g 닭가슴살 ()g 청양고추 ()g
+
+
 
     //====생성 메서드====//
     public static Post createPost(Record record, String menu, String recipe, String uri) {
@@ -59,6 +68,12 @@ public class Post {
         post.setMenu(menu);
         post.setRecord(record);
         post.setNumOfLike(0L);
+        List<RecordFood> requiredFoods = record.getRecordFoods();
+        StringBuilder sb = new StringBuilder();
+        for(RecordFood recordFood :requiredFoods){
+            sb.append(recordFood.getFood().getFoodName()+ ",");
+        }
+        post.setRequiredFood(sb.toString());
         post.setRecipe(recipe);
         post.setPicUri(uri);
 

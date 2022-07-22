@@ -25,7 +25,7 @@ public class FavoritesRepository {
      */
     public List<RecipeDto> MyFavorites(String id) {
         List<RecipeDto> results =
-                query.select(Projections.constructor(RecipeDto.class, favorites.member.id,post.menu,record.totalCarbohydrate,record.totalFat,record.totalFat, record.totalKcal, record.requiredFood, post.recipe, post.picUri))
+                query.select(Projections.constructor(RecipeDto.class, favorites.member.id,post.menu,record.totalCarbohydrate,record.totalFat,record.totalFat, record.totalKcal, post.requiredFood, post.recipe, post.picUri))
                         .from(favorites, post, record)
                         .where(favorites.member.id.eq(id), favorites.post.id.eq(post.id), post.record.id.eq(record.id))
                         .fetch();

@@ -11,4 +11,7 @@ import java.util.List;
 public interface RecordRepository extends JpaRepository<Record, Long> {
 
     List<Record> findAllByRecordDateEquals(@Param("yesterday") LocalDate yesterday);
+
+    List<Record> findAllByRecordDateBetween(@Param("startDate") LocalDate startDate,
+                                            @Param("endDate") LocalDate endDate);
 }

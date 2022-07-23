@@ -1,7 +1,7 @@
 package com.prob_jr.sikcal_app.domain;
 
 import lombok.Getter;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import static javax.persistence.FetchType.*;
 
 @Entity
+@Table(uniqueConstraints = {@UniqueConstraint(name = "UniqueDateAndMember", columnNames = {"calendar_date", "member_id"})})
 @Getter
 public class Calendar {
 
@@ -17,7 +18,7 @@ public class Calendar {
     @Column(name = "calendar_id")
     private Long id;
 
-
+    @Column(name = "calendar_date")
     private LocalDate calendarDate;
 
     @ManyToOne(fetch = LAZY)
@@ -50,14 +51,10 @@ public class Calendar {
         return calendar;
     }
 
-    //====목표 섭취 칼로리 달성여부 확인 로직====//
-    public static Calendar checkTarget(Calendar calendar, CalendarStatus status) {
-        if (status.equals(CalendarStatus.SUCCESS)) {
-            calendar.setStatus(CalendarStatus.SUCCESS);
-        }
-        else {
-            calendar.setStatus(CalendarStatus.FAIL);
-        }
+    //====목표 섭취 칼로리 달성여부 업데이트====//
+    public static Calendar updateStatus(Calendar calendar, CalendarStatus status) {
+        calendar.setStatus(status);
+
         return calendar;
     }
 

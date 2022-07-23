@@ -9,12 +9,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface CalendarRepository extends JpaRepository<Calendar, Long> {
     List<Calendar> findAllByMemberAndCalendarDateBetween(@Param("member") Member member,
-                                                         @Param("startDate") LocalDate startDate,
-                                                         @Param("endDate") LocalDate endDate);
+                                                             @Param("startDate") LocalDate startDate,
+                                                             @Param("endDate") LocalDate endDate);
 
-//    @Query("select c from Calendar c where c.member.id and c.calendarDate")
-//    List<Calendar> findAllByYearMonth(@Param("yearMonth") LocalDate date);
+    Calendar findAllByMemberAndCalendarDate(@Param("member") Member member,
+                                                      @Param("calendarDate") LocalDate calendarDate);
 }

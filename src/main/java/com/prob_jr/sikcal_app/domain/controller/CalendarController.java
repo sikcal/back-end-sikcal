@@ -23,15 +23,6 @@ public class CalendarController {
 
     private final CalendarService calendarService;
 
-//    @GetMapping("/calendar")
-//    public ResponseEntity<CalendarStateInfo> checkTargetWeight(HttpServletRequest request) {
-//        String memberId = TokenIdUtil.Decoder(request);
-//
-//        CalendarStateInfo calendarStateInfo = calendarService.checkTargetKcal(memberId);
-//
-//        return ResponseEntity.ok(calendarStateInfo);
-//    }
-
     @GetMapping("/calendar")
     public ResponseEntity<List<MonthlyStateInfo>> checkMonthlyTarget(HttpServletRequest request,
                                                                      @ModelAttribute CheckTargetRequest checkTargetRequest) {

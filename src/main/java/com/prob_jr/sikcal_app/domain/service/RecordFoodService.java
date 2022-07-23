@@ -111,16 +111,10 @@ public class RecordFoodService {
         return foodRepository.findAllByFoodNameContains(recordFoodSearchCond.getFoodName());
     }
 
-    /**
-     * 식단을 통해 식단에 포함된 음식 정보를 반환
-     */
-//    public List<Food> showFoods(FoodShowCond foodShowCond) {
-//
-//        return recordFoodRepository.findFoods(foodShowCond.getRecordId())
-//                .stream().map(RecordFood::getFood)
-//                .collect(Collectors.toList());
-//    }
 
+    /**
+     * 음식을 리스트로 반환
+     */
     public List<ShowFoodInfo> showFoods(FoodShowCond foodShowCond) {
 
         return recordFoodRepository.findFoods(foodShowCond.getRecordId())

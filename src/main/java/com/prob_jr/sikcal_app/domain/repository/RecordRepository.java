@@ -1,5 +1,6 @@
 package com.prob_jr.sikcal_app.domain.repository;
 
+import com.prob_jr.sikcal_app.domain.Member;
 import com.prob_jr.sikcal_app.domain.Record;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
@@ -12,6 +13,7 @@ public interface RecordRepository extends JpaRepository<Record, Long> {
 
     List<Record> findAllByRecordDateEquals(@Param("yesterday") LocalDate yesterday);
 
-    List<Record> findAllByRecordDateBetween(@Param("startDate") LocalDate startDate,
-                                            @Param("endDate") LocalDate endDate);
+    List<Record> findAllByMemberAndRecordDateBetween(@Param("member") Member member,
+                                                     @Param("startDate") LocalDate startDate,
+                                                     @Param("endDate") LocalDate endDate);
 }

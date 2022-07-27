@@ -61,13 +61,13 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         Algorithm algorithm= Algorithm.HMAC256("secret".getBytes());
         String access_token = JWT.create()
                 .withSubject(user.getUsername()) //회원 고유한걸로 해야함 key
-                .withExpiresAt(new Date((System.currentTimeMillis() +30*60*1000))) //현재시간에서 일단 10분동안으로
+                .withExpiresAt(new Date((System.currentTimeMillis() +60*60*1000))) //현재시간에서 일단 10분동안으로
                 .withIssuer(request.getRequestURI().toString())
                 .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(algorithm);
         String refresh_token = JWT.create()
                 .withSubject(user.getUsername()) //회원 고유한걸로 해야함 key
-                .withExpiresAt(new Date((System.currentTimeMillis() +300*60*1000))) // refresh는 30분만 한달 1년 설정가능
+                .withExpiresAt(new Date((System.currentTimeMillis() +365*24*60*60*1000))) // refresh는 30분만 한달 1년 설정가능
                 .withIssuer(request.getRequestURI().toString())
                 .sign(algorithm);
         //프론트쪽에 토큰 보내기

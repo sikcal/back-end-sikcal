@@ -1,5 +1,7 @@
 package com.prob_jr.sikcal_app.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -19,12 +21,10 @@ public class Record {
     @Column(name = "record_id")
     private Long id;
 
+    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
-
-    @OneToMany(mappedBy = "record", cascade = CascadeType.ALL)
-    private List<RecordFood> recordFoods = new ArrayList<>();
 
     private LocalDate recordDate; //식단을 추가한 날짜를 저장할 컬럼
 
@@ -33,6 +33,10 @@ public class Record {
     private int totalProtein;
     private int totalFat;
     private int totalKcal;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "record", cascade = CascadeType.ALL)
+    private List<RecordFood> recordFoods = new ArrayList<>();
 
 
     public void setTotalCarbohydrate(int totalCarbohydrate) {

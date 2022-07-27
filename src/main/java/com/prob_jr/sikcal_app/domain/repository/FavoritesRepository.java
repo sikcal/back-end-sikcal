@@ -32,6 +32,5 @@ public class FavoritesRepository {
 
         return results;
 
-
     }
 }

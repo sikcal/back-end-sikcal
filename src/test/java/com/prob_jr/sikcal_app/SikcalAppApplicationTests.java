@@ -1,6 +1,9 @@
 package com.prob_jr.sikcal_app;
 
 import com.prob_jr.sikcal_app.domain.*;
+import com.prob_jr.sikcal_app.domain.repository.FavoritesRepositoryJpa;
+import com.prob_jr.sikcal_app.domain.repository.MemberRepository;
+import com.prob_jr.sikcal_app.domain.repository.PostRepository;
 import com.prob_jr.sikcal_app.domain.service.dto.RecipeDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -26,6 +29,14 @@ class SikcalAppApplicationTests {
 //	//EntityManager em;
 	@Autowired
 	JPAQueryFactory query;
+	@Autowired
+	FavoritesRepositoryJpa favoritesRepository;
+	@Autowired
+	MemberRepository memberRepository;
+	@Autowired
+	PostRepository postRepository;
+
+
 	@Test
 	void 테스트() {
 		//JPAQueryFactory query = new JPAQueryFactory(em);
@@ -33,6 +44,13 @@ class SikcalAppApplicationTests {
 				.selectFrom(member)
 				.fetch();
 		System.out.println(results);
+	}
+	@Test
+	void 즐겨찾기(){
+		Member member = memberRepository.getById("test1234");
+		Post post = postRepository.findById(2L);
+		Favorites favorites = new Favorites(null,post,member);
+		favoritesRepository.save(favorites);
 	}
 //	@Test
 //	void 세타조인테스트(){

@@ -1,5 +1,7 @@
 package com.prob_jr.sikcal_app.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.springframework.security.core.parameters.P;
 
@@ -24,11 +26,15 @@ public class Post {
     private Long numOfLike;
     @Lob
     private String recipe;
+    // 파이어베이스 사진 경로 담는 문자열
+    private String picUri;
+    @Lob
+    private String requiredFood; //하나의 식단을 구성하는 음식을 concatenate하여 저장할 컬럼 || 토마토: ()g 계란 ()g 닭가슴살 ()g 청양고추 ()g
 
-    @OneToOne(fetch = LAZY)
+    @OneToOne(cascade = CascadeType.ALL ,orphanRemoval = true)
     @JoinColumn(name = "record_id")
+    //@JsonIgnore
     private Record record;
-
 
 
     private void setRecord(Record record) {
@@ -54,10 +60,7 @@ public class Post {
         this.requiredFood = requiredFood;
     }
 
-    // 파이어베이스 사진 경로 담는 문자열
-    private String picUri;
 
-    private String requiredFood; //하나의 식단을 구성하는 음식을 concatenate하여 저장할 컬럼 || 토마토: ()g 계란 ()g 닭가슴살 ()g 청양고추 ()g
 
 
 

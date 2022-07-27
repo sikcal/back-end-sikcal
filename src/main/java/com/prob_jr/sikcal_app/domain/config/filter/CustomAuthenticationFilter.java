@@ -38,13 +38,13 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         //프론트쪽에서 사용할 로그인 폼 parameter설정 저렇게 해달라고 요청
-        String userid = request.getParameter("userid");
+        String memberId = request.getParameter("userid");
         String password = request.getParameter("password");
         //로그인할때마다 log만들깅
-        LOGGER.info("login 한 너의 id: {} ", userid);
+        LOGGER.info("login 한 너의 id: {} ", memberId);
         LOGGER.info("login 한 너의 비번 : {} ", password);
         //아이디와 비번으로 인증token 생성
-        UsernamePasswordAuthenticationToken authenticationToken=new UsernamePasswordAuthenticationToken(userid,password);
+        UsernamePasswordAuthenticationToken authenticationToken=new UsernamePasswordAuthenticationToken(memberId,password);
         //매니저한테 token전달
         return authenticationManager.authenticate(authenticationToken);
     }
@@ -61,13 +61,13 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         Algorithm algorithm= Algorithm.HMAC256("secret".getBytes());
         String access_token = JWT.create()
                 .withSubject(user.getUsername()) //회원 고유한걸로 해야함 key
-                .withExpiresAt(new Date((System.currentTimeMillis() +10*60*1000))) //현재시간에서 일단 10분동안으로
+                .withExpiresAt(new Date((System.currentTimeMillis() +30*60*1000))) //현재시간에서 일단 10분동안으로
                 .withIssuer(request.getRequestURI().toString())
                 .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(algorithm);
         String refresh_token = JWT.create()
                 .withSubject(user.getUsername()) //회원 고유한걸로 해야함 key
-                .withExpiresAt(new Date((System.currentTimeMillis() +30*60*1000))) // refresh는 30분만 한달 1년 설정가능
+                .withExpiresAt(new Date((System.currentTimeMillis() +300*60*1000))) // refresh는 30분만 한달 1년 설정가능
                 .withIssuer(request.getRequestURI().toString())
                 .sign(algorithm);
         //프론트쪽에 토큰 보내기

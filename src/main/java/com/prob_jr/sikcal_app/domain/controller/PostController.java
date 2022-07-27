@@ -1,7 +1,9 @@
 package com.prob_jr.sikcal_app.domain.controller;
 
+import com.prob_jr.sikcal_app.domain.Favorites;
 import com.prob_jr.sikcal_app.domain.Post;
 import com.prob_jr.sikcal_app.domain.config.TokenIdUtil;
+import com.prob_jr.sikcal_app.domain.controller.dto.addPostInfo;
 import com.prob_jr.sikcal_app.domain.service.PostService;
 import com.prob_jr.sikcal_app.domain.service.dto.PostDto;
 import com.prob_jr.sikcal_app.domain.service.FavoritesService;
@@ -25,8 +27,8 @@ public class PostController {
      *post작성해보기
      **/
     @PostMapping("/record/post")
-    public ResponseEntity<Post> addPost(@RequestBody PostDto dto){
-        Post post =postService.addPost(dto);
+    public ResponseEntity<addPostInfo> addPost(@RequestBody PostDto dto){
+        addPostInfo post =postService.addPost(dto);
         return ResponseEntity.ok().body(post);
     }
     /**
@@ -72,6 +74,16 @@ public class PostController {
     public ResponseEntity<List<RecipeDto>> getFavorites(HttpServletRequest request){
         String member_id = TokenIdUtil.Decoder(request);
         return ResponseEntity.ok().body(favoritesService.MyFavorites(member_id));
+    }
+
+    /**
+     * post에서 즐겨찾기로
+     */
+
+    @PostMapping("/record/addfavorites")
+    public ResponseEntity<Favorites> addFavorites(HttpServletRequest request, @RequestParam Long postId ){
+        String member_id = TokenIdUtil.Decoder(request);
+        return ResponseEntity.ok().body(favoritesService.addFavorites(member_id,postId));
     }
 
 }

@@ -73,12 +73,14 @@ public class CalendarService {
             }
             else {
                 Calendar calendar = calendarRepository.findAllByMemberAndCalendarDate(member, date.withDayOfMonth(i + 1));
-                if (requiredTotalKcal <= totalKcalArr[i]) {
-                    Calendar successCalendar = Calendar.updateStatus(calendar, CalendarStatus.SUCCESS);
-                    calendarRepository.save(successCalendar);
-                } else {
-                    Calendar failCalendar = Calendar.updateStatus(calendar, CalendarStatus.FAIL);
-                    calendarRepository.save(failCalendar);
+                if (calendar.getStatus() == CalendarStatus.FAIL) { //defaul가 fail로 들어가기 때문에 success인건 변경하지 않도록
+                    if (requiredTotalKcal <= totalKcalArr[i]) {
+                        Calendar successCalendar = Calendar.updateStatus(calendar, CalendarStatus.SUCCESS);
+                        calendarRepository.save(successCalendar);
+                    } else {
+                        Calendar failCalendar = Calendar.updateStatus(calendar, CalendarStatus.FAIL);
+                        calendarRepository.save(failCalendar);
+                    }
                 }
             }
 

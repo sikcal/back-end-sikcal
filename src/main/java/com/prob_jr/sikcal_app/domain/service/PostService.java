@@ -1,5 +1,6 @@
 package com.prob_jr.sikcal_app.domain.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.prob_jr.sikcal_app.domain.Post;
 import com.prob_jr.sikcal_app.domain.Record;
 import com.prob_jr.sikcal_app.domain.controller.MemberController;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.SerializationUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,8 +32,19 @@ public class PostService {
 
     public addPostInfo addPost(PostDto dto){
         LOGGER.info("record에서 Post 저장 시작");
+
         Record record = recordRepository.getById(dto.getRecordId());
-        Post post =postRepository.save(Post.createPost(record,dto.getMenu(), dto.getRecipe(), dto.getPicUri()));
+        //record 백업용
+        Record recordBackUp = new Record();
+        recordBackUp.setMember(record.getMember());
+        recordBackUp.setRecordDate(record.getRecordDate());
+        recordBackUp.setTotalCarbohydrate(record.getTotalCarbohydrate());
+        recordBackUp.setTotalFat(record.getTotalFat());
+        recordBackUp.setTotalProtein(record.getTotalProtein());
+        recordBackUp.setTotalKcal(record.getTotalKcal());
+        recordBackUp.setRecordFoods(record.getRecordFoods());
+        Record postRecord=recordRepository.save(recordBackUp);
+        Post post =postRepository.save(Post.createPost(postRecord,dto.getMenu(), dto.getRecipe(), dto.getPicUri()));
         addPostInfo postInfo =new addPostInfo(post.getId(), post.getRecord().getId());
         return postInfo;
     }

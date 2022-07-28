@@ -63,7 +63,9 @@ public class Record {
         this.member = member;
     }
 
-
+    public void setRecordFoods(List<RecordFood> recordFoods) {
+        this.recordFoods = recordFoods;
+    }
 
     //====생성 메서드====//
     public static Record createRecord(Member member) {

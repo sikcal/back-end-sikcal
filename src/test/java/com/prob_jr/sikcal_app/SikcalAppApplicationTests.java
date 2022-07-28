@@ -52,6 +52,12 @@ class SikcalAppApplicationTests {
 		Favorites favorites = new Favorites(null,post,member);
 		favoritesRepository.save(favorites);
 	}
+	@Test
+	void 레코드백업생성확인(){
+		Record record= new Record();
+
+
+	}
 //	@Test
 //	void 세타조인테스트(){
 //		//JPAQueryFactory query = new JPAQueryFactory(em);

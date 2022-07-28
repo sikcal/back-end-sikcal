@@ -30,7 +30,7 @@ public class PostService {
 
     public addPostInfo addPost(PostDto dto){
         LOGGER.info("record에서 Post 저장 시작");
-        Record record = recordRepository.getById(dto.getRecordID());
+        Record record = recordRepository.getById(dto.getRecordId());
         Post post =postRepository.save(Post.createPost(record,dto.getMenu(), dto.getRecipe(), dto.getPicUri()));
         addPostInfo postInfo =new addPostInfo(post.getId(), post.getRecord().getId());
         return postInfo;

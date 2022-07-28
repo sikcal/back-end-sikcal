@@ -14,6 +14,5 @@ public class CalendarStateInfo {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate yesterday;
-
     private CalendarStatus status;
 }

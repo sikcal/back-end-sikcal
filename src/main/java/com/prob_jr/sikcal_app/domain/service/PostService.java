@@ -59,13 +59,23 @@ public class PostService {
                         post.toDto()
                 ).collect(Collectors.toList());
     }
+    public List<PostDto> searchPosts(String keyword){
+
+        return postRepository.searchPostByMenuContains(keyword)
+                .stream()
+                .map(post-> post.toDto())
+                .collect(Collectors.toList());
+    }
 
     public void clickLikes(Long postId){
         postRepository.bulkLike(postId);
     }
+
     public PostDto getPost(Long postId){
         return postRepository.findById(postId).toDto();
     }
+
+
 
 
 }

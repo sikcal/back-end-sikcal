@@ -4,6 +4,8 @@ import com.prob_jr.sikcal_app.domain.*;
 import com.prob_jr.sikcal_app.domain.repository.FavoritesRepositoryJpa;
 import com.prob_jr.sikcal_app.domain.repository.MemberRepository;
 import com.prob_jr.sikcal_app.domain.repository.PostRepository;
+import com.prob_jr.sikcal_app.domain.service.PostService;
+import com.prob_jr.sikcal_app.domain.service.dto.PostDto;
 import com.prob_jr.sikcal_app.domain.service.dto.RecipeDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -15,6 +17,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.prob_jr.sikcal_app.domain.QFavorites.favorites;
 import static com.prob_jr.sikcal_app.domain.QMember.*;
@@ -35,6 +38,8 @@ class SikcalAppApplicationTests {
 	MemberRepository memberRepository;
 	@Autowired
 	PostRepository postRepository;
+	@Autowired
+	PostService postService;
 
 
 	@Test
@@ -53,9 +58,10 @@ class SikcalAppApplicationTests {
 		favoritesRepository.save(favorites);
 	}
 	@Test
-	void 레코드백업생성확인(){
-		Record record= new Record();
-
+	void 포스트keyword로검색(){
+		List<PostDto> results = postService.searchPosts("수육");
+		System.out.println(results);
+		Assertions.assertThat(results.size()==1);
 
 	}
 //	@Test

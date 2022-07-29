@@ -10,6 +10,9 @@ import com.prob_jr.sikcal_app.domain.service.dto.PostDto;
 import com.prob_jr.sikcal_app.domain.service.FavoritesService;
 import com.prob_jr.sikcal_app.domain.service.dto.RecipeDto;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.repository.cdi.Eager;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +27,8 @@ public class PostController {
 
     private final FavoritesService favoritesService;
     private final PostService postService;
+    private final Logger LOGGER = LoggerFactory.getLogger(MemberController.class);
+
 
     /**
      *post작성해보기
@@ -45,7 +50,7 @@ public class PostController {
      * 좋아요 업뎃하고다시 반환
      */
     @PutMapping("/record/post/likes")
-    public ResponseEntity<PostDto> clickLikes(@RequestParam Long postId ){
+    public ResponseEntity<PostDto> clickLikes(@RequestParam("postId") Long postId ){
         postService.clickLikes(postId);
         PostDto post = postService.getPost(postId);
         return ResponseEntity.ok().body(post);
@@ -54,7 +59,7 @@ public class PostController {
      * postid로 하나의 post만 갖고오기
      */
     @GetMapping("/record/post")
-    public ResponseEntity<PostDto> getPost(@RequestParam Long postId){
+    public ResponseEntity<PostDto> getPost(@RequestParam("postId") Long postId){
         PostDto post = postService.getPost(postId);
         return ResponseEntity.ok().body(post);
     }
@@ -75,10 +80,18 @@ public class PostController {
      */
 
     @PostMapping("/record/addfavorites")
-    public ResponseEntity<?> addFavorites(HttpServletRequest request, @RequestParam Long postId ){
+    public ResponseEntity<?> addFavorites(HttpServletRequest request, @RequestParam("postId") Long postId ){
         String member_id = TokenIdUtil.Decoder(request);
         favoritesService.addFavorites(member_id,postId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @GetMapping("/record/post/search")
+    public ResponseEntity<List<PostDto>> searchPosts(@RequestParam(value = "keyword",required = false) String keyword){ //302코드 found
+        List<PostDto> results = postService.searchPosts(keyword.toString());
+        LOGGER.info("입력받은 키워드 :{}",keyword);
+        LOGGER.info("들어온 결과값 :{}",results);
+        return ResponseEntity.status(HttpStatus.FOUND).body(results);
     }
 
 }

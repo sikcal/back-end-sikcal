@@ -18,6 +18,8 @@ public interface PostRepository extends JpaRepository<Post, String> {
     @Query("update Post p set p.numOfLike=p.numOfLike+1 where p.id=:postId")
     void bulkLike(@Param("postId") Long postId);
 
+    List<Post> searchPostByMenuContains(String keyword);
+
     Post findById(Long id);
 
 }

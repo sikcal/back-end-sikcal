@@ -2,7 +2,9 @@ package com.prob_jr.sikcal_app.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -14,6 +16,8 @@ import static javax.persistence.FetchType.*;
 
 @Entity
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Record {
 
     @Id

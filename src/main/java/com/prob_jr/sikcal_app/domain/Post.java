@@ -39,7 +39,7 @@ public class Post {
     private Record record;
 
 
-    private void setRecord(Record record) {
+    public void setRecord(Record record) {
         this.record = record;
     }
 

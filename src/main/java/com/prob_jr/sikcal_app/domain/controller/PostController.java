@@ -50,7 +50,7 @@ public class PostController {
      * 좋아요 업뎃하고다시 반환
      */
     @PutMapping("/record/post/likes")
-    public ResponseEntity<PostDto> clickLikes(@RequestParam("postId") Long postId ){
+    public ResponseEntity<PostDto> clickLikes(@RequestParam Long postId ){
         postService.clickLikes(postId);
         PostDto post = postService.getPost(postId);
         return ResponseEntity.ok().body(post);
@@ -59,7 +59,7 @@ public class PostController {
      * postid로 하나의 post만 갖고오기
      */
     @GetMapping("/record/post")
-    public ResponseEntity<PostDto> getPost(@RequestParam("postId") Long postId){
+    public ResponseEntity<PostDto> getPost(@RequestParam Long postId){
         PostDto post = postService.getPost(postId);
         return ResponseEntity.ok().body(post);
     }
@@ -80,7 +80,7 @@ public class PostController {
      */
 
     @PostMapping("/record/addfavorites")
-    public ResponseEntity<?> addFavorites(HttpServletRequest request, @RequestParam("postId") Long postId ){
+    public ResponseEntity<?> addFavorites(HttpServletRequest request, @RequestParam Long postId ){
         String member_id = TokenIdUtil.Decoder(request);
         favoritesService.addFavorites(member_id,postId);
         return ResponseEntity.status(HttpStatus.CREATED).build();

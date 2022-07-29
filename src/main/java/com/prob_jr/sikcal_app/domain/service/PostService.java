@@ -1,8 +1,10 @@
 package com.prob_jr.sikcal_app.domain.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.prob_jr.sikcal_app.domain.Member;
 import com.prob_jr.sikcal_app.domain.Post;
 import com.prob_jr.sikcal_app.domain.Record;
+import com.prob_jr.sikcal_app.domain.RecordFood;
 import com.prob_jr.sikcal_app.domain.controller.MemberController;
 import com.prob_jr.sikcal_app.domain.controller.dto.AddPost;
 import com.prob_jr.sikcal_app.domain.controller.dto.addPostInfo;
@@ -20,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.SerializationUtils;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -38,16 +41,21 @@ public class PostService {
 
         Record record = recordRepository.getById(dto.getRecordId());
         //record 백업용
-        Record recordBackUp = new Record();
-        recordBackUp.setMember(record.getMember());
-        recordBackUp.setRecordDate(record.getRecordDate());
-        recordBackUp.setTotalCarbohydrate(record.getTotalCarbohydrate());
-        recordBackUp.setTotalFat(record.getTotalFat());
-        recordBackUp.setTotalProtein(record.getTotalProtein());
-        recordBackUp.setTotalKcal(record.getTotalKcal());
-        recordBackUp.setRecordFoods(record.getRecordFoods());
+        //Member member = record.getMember();
+        Record recordBackUp = new Record(null,record.getMember()
+                ,record.getRecordDate()
+        ,record.getTotalCarbohydrate()
+        ,record.getTotalProtein()
+        ,record.getTotalFat()
+        ,record.getTotalKcal()
+        ,null);
+        LOGGER.info("1단계 recordbackup: {}",recordBackUp.toString());
+        Post setPost = Post.createPost(record,dto.getMenu(), dto.getRecipe(), dto.getPicUri());
+        LOGGER.info("2단계 post: {}",setPost.toString());
+        setPost.setRecord(recordBackUp);
+        LOGGER.info("4단계 post: {}",setPost.toString());
         Record postRecord=recordRepository.save(recordBackUp);
-              Post post =postRepository.save(Post.createPost(postRecord,dto.getMenu(), dto.getRecipe(), dto.getPicUri()));
+        Post post =postRepository.save(setPost);
         addPostInfo postInfo =new addPostInfo(post.getId(), post.getRecord().getId());
         return postInfo;
     }

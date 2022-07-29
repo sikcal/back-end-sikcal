@@ -33,11 +33,10 @@ public class FavoritesService {
         return repository.MyFavorites(id);
     }
 
-    public Favorites addFavorites(String id, Long postId){
+    public void addFavorites(String id, Long postId){
         Member member = memberRepository.getById(id);
         Post post = postRepository.findById(postId);
-        Favorites favorites = new Favorites(null,post,member);
-        return favoritesRepository.save(favorites);
+        favoritesRepository.save(new Favorites(null,post,member));
     }
 
 

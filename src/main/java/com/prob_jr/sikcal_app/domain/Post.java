@@ -2,6 +2,7 @@ package com.prob_jr.sikcal_app.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.prob_jr.sikcal_app.domain.service.dto.PostDto;
 import lombok.*;
 import org.springframework.security.core.parameters.P;
 
@@ -14,7 +15,9 @@ import static javax.persistence.FetchType.*;
 
 @Entity
 @Getter
-@RequiredArgsConstructor
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Post {
 
     @Id
@@ -33,7 +36,6 @@ public class Post {
 
     @OneToOne(cascade = CascadeType.ALL ,orphanRemoval = true)
     @JoinColumn(name = "record_id")
-    //@JsonIgnore
     private Record record;
 
 
@@ -60,24 +62,38 @@ public class Post {
         this.requiredFood = requiredFood;
     }
 
-
+    /**
+     *
+     postRepository.findById(postId)
+     */
+    //++++엔티티 -> dto ++++//
+    public PostDto toDto(){
+        return PostDto.builder().memberId(record.getMember().getId())
+                .postId(id)
+                .recordId(record.getId())
+                .totalCarbohydrate(record.getTotalCarbohydrate())
+                .totalProtein(record.getTotalProtein())
+                .totalFat(record.getTotalFat())
+                .totalKcal(record.getTotalKcal())
+                .requiredFood(requiredFood)
+                .menu(menu)
+                .recipe(recipe)
+                .picUri(picUri)
+                .build();
+    }
 
 
 
     //====생성 메서드====//
     public static Post createPost(Record record, String menu, String recipe, String uri) {
-        Post post = new Post();
-        post.setMenu(menu);
-        post.setRecord(record);
-        post.setNumOfLike(0L);
+
         List<RecordFood> requiredFoods = record.getRecordFoods();
         StringBuilder sb = new StringBuilder();
         for(RecordFood recordFood :requiredFoods){
             sb.append(recordFood.getFood().getFoodName()+ ",");
         }
-        post.setRequiredFood(sb.toString());
-        post.setRecipe(recipe);
-        post.setPicUri(uri);
+
+        Post post = new Post(null,menu,0L,recipe,uri,sb.toString(),record);
 
         return post;
     }

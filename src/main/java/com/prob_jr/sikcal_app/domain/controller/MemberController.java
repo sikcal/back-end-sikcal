@@ -144,7 +144,7 @@ public class MemberController {
                 MemberDto member =memberService.getMember(memberId); //token으로 이름받아와서 해당이름인 멤버 찾기
                 String access_token = JWT.create()
                         .withSubject(member.getId()) //회원 고유한걸로 해야함 key
-                        .withExpiresAt(new Date((System.currentTimeMillis() +10*60*1000))) //현재시간에서 일단 10분동안으로
+                        .withExpiresAt(new Date((System.currentTimeMillis() +365*24*60*60*1000)))
                         .withIssuer(request.getRequestURI().toString())
                         .withClaim("roles", member.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
                         .sign(algorithm);

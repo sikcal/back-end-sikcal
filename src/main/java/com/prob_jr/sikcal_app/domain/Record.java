@@ -21,7 +21,6 @@ public class Record {
     @Column(name = "record_id")
     private Long id;
 
-    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
@@ -34,7 +33,7 @@ public class Record {
     private int totalFat;
     private int totalKcal;
 
-    @JsonIgnore
+    //@JsonIgnore
     @OneToMany(mappedBy = "record", cascade = CascadeType.ALL)
     private List<RecordFood> recordFoods = new ArrayList<>();
 
